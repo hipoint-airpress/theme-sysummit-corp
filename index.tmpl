@@ -1,0 +1,127 @@
+{% set homeTitle = settings.home_title|default:blog_title %}
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    {% include "www/module/head" with title=homeTitle %}
+</head>
+<body>
+{% include "www/module/header" %}
+
+<section class="ap-hero ap-hero--banner">
+    {% if settings.banner_image %}
+        <div class="ap-hero__bg" style="background-image:url('{{ settings.banner_image }}')"></div>
+    {% endif %}
+    <div class="ap-container">
+        <div class="ap-hero__inner">
+            <h1 class="ap-hero__title">{{ settings.banner_title|default:blog_title }}</h1>
+            {% if settings.banner_subtitle %}
+                <p class="ap-hero__subtitle">{{ settings.banner_subtitle }}</p>
+            {% endif %}
+            <div class="ap-hero__actions">
+                {% if settings.banner_link %}
+                    <a class="ap-btn ap-btn--primary ap-btn--lg" href="{{ settings.banner_link }}">{{ settings.banner_link_text|default:"了解更多" }}</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="ap-hero__scroll" aria-hidden="true">
+        <svg class="ap-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+    </div>
+</section>
+
+{# 核心业务（全面的芯片设计解决方案提供商）：冷调浅底 + 标题左对齐，提前展示 #}
+<section class="ap-section ap-section--alt">
+    <div class="ap-container">
+        <div class="ap-section__head ap-reveal">
+            <div class="ap-section__head-main">
+                <h2 class="ap-section__title">{{ settings.section_advantage_title|default:"核心业务" }}</h2>
+                {% if settings.section_advantage_desc %}
+                    <p class="ap-section__desc">{{ settings.section_advantage_desc }}</p>
+                {% endif %}
+            </div>
+        </div>
+        <div class="ap-grid ap-grid--2 ap-services">
+            {% include "www/module/promo" with title=settings.val1_title desc=settings.val1_desc link=settings.val1_link %}
+            {% include "www/module/promo" with title=settings.val2_title desc=settings.val2_desc link=settings.val2_link %}
+        </div>
+        <div class="ap-grid ap-grid--4">
+            {% include "www/module/feature" with title=settings.adv1_title desc=settings.adv1_desc icon=settings.adv1_icon %}
+            {% include "www/module/feature" with title=settings.adv2_title desc=settings.adv2_desc icon=settings.adv2_icon %}
+            {% include "www/module/feature" with title=settings.adv3_title desc=settings.adv3_desc icon=settings.adv3_icon %}
+            {% include "www/module/feature" with title=settings.adv4_title desc=settings.adv4_desc icon=settings.adv4_icon %}
+        </div>
+    </div>
+</section>
+
+{# 应用领域：深海军蓝底，与核心业务浅底形成强对比，区块节奏 浅 → 深 → 灰 #}
+<section class="ap-section ap-section--dark">
+    <div class="ap-container">
+        <div class="ap-section__head ap-reveal">
+            <div class="ap-section__head-main">
+                <h2 class="ap-section__title">{{ settings.section_application_title|default:"应用领域" }}</h2>
+                {% if settings.section_application_desc %}
+                    <p class="ap-section__desc">{{ settings.section_application_desc }}</p>
+                {% endif %}
+            </div>
+        </div>
+        <div class="ap-showcase" id="apShowcase">
+            <div class="ap-showcase__panels">
+                {% include "www/module/showcase-panel" with index=1 title=settings.app1_title desc=settings.app1_desc image=settings.app1_image link=settings.app1_link %}
+                {% include "www/module/showcase-panel" with index=2 title=settings.app2_title desc=settings.app2_desc image=settings.app2_image link=settings.app2_link %}
+                {% include "www/module/showcase-panel" with index=3 title=settings.app3_title desc=settings.app3_desc image=settings.app3_image link=settings.app3_link %}
+                {% include "www/module/showcase-panel" with index=4 title=settings.app4_title desc=settings.app4_desc image=settings.app4_image link=settings.app4_link %}
+            </div>
+            <div class="ap-showcase__tabs">
+                {% include "www/module/showcase-tab" with index=1 title=settings.app1_title icon=settings.app1_icon link=settings.app1_link %}
+                {% include "www/module/showcase-tab" with index=2 title=settings.app2_title icon=settings.app2_icon link=settings.app2_link %}
+                {% include "www/module/showcase-tab" with index=3 title=settings.app3_title icon=settings.app3_icon link=settings.app3_link %}
+                {% include "www/module/showcase-tab" with index=4 title=settings.app4_title icon=settings.app4_icon link=settings.app4_link %}
+            </div>
+        </div>
+    </div>
+</section>
+
+{# 新闻动态：源站首页无此区块，本站可选扩展，home_news_count > 0 时显示 #}
+{% set newsCount = settings.home_news_count|default:"0"|integer %}
+{% if newsCount > 0 %}
+{% set homePosts = listPostByCategorySlug("news") %}
+{% if homePosts %}
+<section class="ap-section ap-section--gray">
+    <div class="ap-container">
+        <div class="ap-section__head ap-reveal">
+            <div class="ap-section__head-main">
+                <h2 class="ap-section__title">{{ settings.section_news_title|default:"新闻动态" }}</h2>
+            </div>
+            <a class="ap-section__more" href="{{ settings.news_url|default:'/archives' }}">查看全部{% include "www/module/icon" with name="arrow-right" %}</a>
+        </div>
+        <div class="ap-grid ap-grid--3 ap-news-home">
+            {% for post in homePosts %}
+                {% if forloop.Counter <= newsCount %}
+                <div class="ap-reveal">
+                    <a class="ap-card" href="{{ post.FullPath }}" title="{{ post.Title }}">
+                        <div class="ap-card__thumb">
+                            {% if post.Thumbnail %}
+                                <img src="{{ post.Thumbnail }}" alt="{{ post.Title }}"/>
+                            {% endif %}
+                        </div>
+                        <div class="ap-card__body">
+                            <h3 class="ap-card__title">{{ post.Title }}</h3>
+                            <div class="ap-news__meta">{{ unix_milli_time_format("2006-01-02", post.CreateTime) }}</div>
+                            {% if post.Summary %}
+                                <p class="ap-card__desc">{{ post.Summary|truncatechars:60 }}</p>
+                            {% endif %}
+                        </div>
+                    </a>
+                </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+{% endif %}
+
+{% include "www/module/footer" %}
+{% include "www/module/scripts" %}
+</body>
+</html>

@@ -1,0 +1,89 @@
+{# 联系我们区块（源站 contact.vue）：三张信息卡（点击复制）+ 左表单 + 右服务说明。由 metas 的 show_contact / show_contact_form / cards 驱动 #}
+{% for meta in metas %}
+    {% if meta.Key == "show_contact" and meta.Value %}
+        <div class="ap-contact-cards">
+            {% if settings.contact_address %}
+                <div class="ap-contact-card">
+                    <span class="ap-contact-card__icon">{% include "www/module/icon" with name="location" %}</span>
+                    <h3>联系地址</h3>
+                    <p data-copy="{{ settings.contact_address }}">{{ settings.contact_address }}</p>
+                </div>
+            {% endif %}
+            {% if settings.contact_phone %}
+                <div class="ap-contact-card">
+                    <span class="ap-contact-card__icon">{% include "www/module/icon" with name="phone" %}</span>
+                    <h3>联系电话</h3>
+                    <p data-copy="市场电话: {{ settings.contact_phone }}">市场电话: {{ settings.contact_phone }}</p>
+                    <p data-copy="技术支持: {{ settings.contact_phone }}">技术支持: {{ settings.contact_phone }}</p>
+                </div>
+            {% endif %}
+            {% if settings.contact_email or settings.contact_email2 %}
+                <div class="ap-contact-card">
+                    <span class="ap-contact-card__icon">{% include "www/module/icon" with name="mail" %}</span>
+                    <h3>联系邮箱</h3>
+                    {% if settings.contact_email %}<p data-copy="{{ settings.contact_email }}">{{ settings.contact_email }}</p>{% endif %}
+                    {% if settings.contact_email2 %}<p data-copy="{{ settings.contact_email2 }}">{{ settings.contact_email2 }}</p>{% endif %}
+                </div>
+            {% endif %}
+        </div>
+
+        {% for m in metas %}
+            {% if m.Key == "show_contact_form" and m.Value %}
+                <div class="ap-contact-main">
+                    <div class="ap-contact-form" id="apContactFormWrap">
+                        <h2 class="ap-contact-form__title">联系我们</h2>
+                        <form class="ap-form" id="apContactForm" novalidate data-mailto="{{ settings.contact_email|default:"support@sysummit.com" }}">
+                            <div class="ap-form__row">
+                                <div class="ap-field">
+                                    <label for="cf-name">联系人 <em>*</em></label>
+                                    <input id="cf-name" type="text" name="name" autocomplete="name" placeholder="请输入您的姓名" required/>
+                                </div>
+                                <div class="ap-field">
+                                    <label for="cf-email">联系邮箱 <em>*</em></label>
+                                    <input id="cf-email" type="email" name="email" autocomplete="email" placeholder="请输入您的邮箱" required/>
+                                </div>
+                            </div>
+                            <div class="ap-form__row">
+                                <div class="ap-field">
+                                    <label for="cf-address">联系地址 <em>*</em></label>
+                                    <input id="cf-address" type="text" name="address" autocomplete="street-address" placeholder="请输入您的地址" required/>
+                                </div>
+                                <div class="ap-field">
+                                    <label for="cf-company">公司名称 <em>*</em></label>
+                                    <input id="cf-company" type="text" name="company" autocomplete="organization" placeholder="请输入公司名称" required/>
+                                </div>
+                            </div>
+                            <div class="ap-field">
+                                <label for="cf-content">相关事宜 <em>*</em></label>
+                                <textarea id="cf-content" name="content" rows="4" placeholder="请描述您的需求或问题" required></textarea>
+                            </div>
+                            <div class="ap-form__foot">
+                                <button class="ap-btn ap-btn--primary ap-btn--lg" type="submit">提交信息</button>
+                                <button class="ap-btn" type="reset">重置</button>
+                            </div>
+                            <div class="ap-form__msg" id="apContactMsg" hidden></div>
+                        </form>
+                    </div>
+
+                    {# 服务说明：复用 cards meta，纵排小卡（源站右侧 services-wrapper） #}
+                    {% for cm in metas %}
+                        {% if cm.Key == "cards" and cm.Value %}
+                            <div class="ap-contact-services">
+                                {% for card in cm.Value|split:"|" %}
+                                    {% set c = card|split:"::" %}
+                                    <div class="ap-contact-service">
+                                        {% if c.2 %}<span class="ap-contact-service__icon">{% include "www/module/icon" with name=c.2 %}</span>{% endif %}
+                                        <div class="ap-contact-service__body">
+                                            <h3>{{ c.0 }}</h3>
+                                            {% if c.1 %}<p>{{ c.1 }}</p>{% endif %}
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+{% endfor %}

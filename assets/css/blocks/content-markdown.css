@@ -1,0 +1,299 @@
+/* ==========================================================================
+   blocks/content-markdown.css — Markdown 正文增强（.ap-content--md 容器）
+   服务页面：任何挂载 `data-markdown` 容器的文章详情（www-blocks.js 先用 marked
+             渲染 Markdown，再按标记 div 章节转换结构化板块）
+   关联：.ap-md-section 是 www-blocks.js 转换「产品亮点 / 资料下载」章节时的包裹容器
+   注意：当前 theme-www 模板暂未挂载 data-markdown 容器，本模块为恢复该容器分支
+         后即生效的预留样式；样式只作用于 .ap-content--md，不影响其它页面
+   ========================================================================== */
+
+/* Markdown 正文：白卡内容 */
+.ap-content--md {
+    position: relative;
+    isolation: isolate;
+    padding: 6px 2px 2px;
+    font-size: var(--ds-type-body-lg-size);
+    line-height: 1.9;
+    color: var(--ap-text);
+    counter-reset: apH2;
+}
+
+.ap-content--md > h3 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 26px 0 12px;
+    font-size: var(--ds-type-headline-sm-size);
+    line-height: var(--ds-type-headline-sm-lh);
+    font-weight: 600;
+}
+
+.ap-content--md > h3::before {
+    content: '';
+    width: 9px;
+    height: 9px;
+    flex-shrink: 0;
+    border-radius: 2px;
+    background: linear-gradient(135deg, var(--ap-primary), var(--ap-secondary));
+    box-shadow: 0 0 8px var(--ap-primary-tint-40);
+    transform: rotate(45deg);
+}
+
+.ap-content--md > p {
+    margin: 18px 0;
+    font-size: var(--ds-type-body-lg-size);
+    line-height: 2.05;
+    color: var(--ap-text);
+}
+
+/* 列表：双列网格 + 科技卡片 + 发光对勾 / 等宽序号 */
+.ap-content--md > ul,
+.ap-content--md > ol {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 10px 14px;
+    margin: 16px 0;
+    padding-left: 0;
+    list-style: none;
+}
+
+.ap-content--md > ul > li,
+.ap-content--md > ol > li {
+    position: relative;
+    margin: 0;
+    padding: 10px 14px 10px 38px;
+    border: 1px solid var(--ap-border);
+    border-radius: 10px;
+    background: linear-gradient(120deg, var(--ap-primary-tint-04), transparent 65%);
+    transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+
+.ap-content--md > ul > li:hover,
+.ap-content--md > ol > li:hover {
+    transform: translateY(-2px);
+    border-color: var(--ap-primary-tint-40);
+    box-shadow: var(--ap-shadow-card-hover);
+}
+
+.ap-content--md > ul > li::before {
+    content: '';
+    position: absolute;
+    left: 14px;
+    top: 17px;
+    width: 12px;
+    height: 6px;
+    border-left: 2px solid var(--ap-primary);
+    border-bottom: 2px solid var(--ap-primary);
+    transform: rotate(-45deg);
+    filter: drop-shadow(0 0 4px var(--ap-primary-tint-45));
+}
+
+.ap-content--md > ol {
+    counter-reset: apOl;
+}
+
+.ap-content--md > ol > li::before {
+    counter-increment: apOl;
+    content: counter(apOl, decimal-leading-zero);
+    position: absolute;
+    left: 13px;
+    top: 12px;
+    color: var(--ap-primary);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 12px;
+    letter-spacing: .5px;
+}
+
+/* 表格：深色渐变表头 + 虚线行分隔 + hover 高亮 */
+.ap-content--md > table {
+    width: 100%;
+    margin: 20px 0;
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 1px solid var(--ap-border);
+    border-radius: 12px;
+    overflow: hidden;
+
+}
+
+.ap-content--md > thead th {
+    border: 0;
+    background: linear-gradient(120deg, var(--ap-deep-navy), var(--ap-primary) 60%, var(--ap-secondary));
+    color: #fff;
+    font-weight: 600;
+    letter-spacing: .5px;
+}
+
+.ap-content--md > th,
+.ap-content--md > td {
+    padding: 12px 14px;
+    text-align: left;
+    border-bottom: 1px dashed var(--ap-border);
+}
+
+.ap-content--md > tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.ap-content--md > tbody tr:hover td {
+    background: var(--ap-primary-tint-05);
+}
+
+/* 引用：科技提示卡（右侧角标线 + 渐变底） */
+.ap-content--md > blockquote {
+    position: relative;
+    margin: 22px 0;
+    padding: 16px 20px;
+    border: 1px solid var(--ap-primary-tint-25);
+    border-left: 3px solid var(--ap-primary);
+    border-radius: 10px;
+    background: linear-gradient(120deg, var(--ap-primary-tint-07), var(--ap-secondary-tint-03));
+    color: var(--ap-text-weak);
+}
+
+.ap-content--md > blockquote::before,
+.ap-content--md > blockquote::after {
+    content: '';
+    position: absolute;
+    right: 8px;
+    width: 12px;
+    height: 12px;
+}
+
+.ap-content--md > blockquote::before {
+    top: 8px;
+    border-top: 2px solid var(--ap-primary-tint-45);
+    border-right: 2px solid var(--ap-primary-tint-45);
+}
+
+.ap-content--md > blockquote::after {
+    bottom: 8px;
+    border-bottom: 2px solid var(--ap-primary-tint-45);
+    border-right: 2px solid var(--ap-primary-tint-45);
+}
+
+/* 代码：深色玻璃 + 顶部窗口点 */
+.ap-content--md > pre {
+    position: relative;
+    margin: 20px 0;
+    padding: 28px 16px 16px;
+    border: 1px solid rgba(255, 255, 255, .08);
+    border-radius: 10px;
+    background: linear-gradient(180deg, var(--ds-code-bg-from), var(--ds-code-bg-to));
+    color: var(--ds-code-text);
+    overflow-x: auto;
+}
+
+.ap-content--md > pre::before {
+    content: '';
+    position: absolute;
+    left: 14px;
+    top: 11px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--ds-dot-red);
+    box-shadow: 14px 0 0 var(--ds-dot-yellow), 28px 0 0 var(--ds-dot-green);
+}
+
+.ap-content--md code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 13px;
+}
+
+.ap-content--md > :not(pre) > code {
+    padding: 2px 6px;
+    border-radius: 5px;
+    background: var(--ap-primary-tint-08);
+    color: var(--ap-primary);
+}
+
+.ap-content--md > pre code {
+    color: inherit;
+}
+
+/* 图片：描边圆角 + 悬浮投影 */
+.ap-content--md img {
+    border: 1px solid var(--ap-border);
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .08);
+    transition: transform .5s ease, box-shadow .5s ease;
+}
+
+.ap-content--md img:hover {
+    transform: translateY(-2px) scale(1.01);
+    box-shadow: var(--ap-shadow-card-hover);
+}
+
+/* 链接：渐变下划线由左展开 */
+.ap-content--md a:not(.ap-download-link) {
+    position: relative;
+    color: var(--ap-primary);
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.ap-content--md a:not(.ap-download-link)::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--ap-primary), var(--ap-secondary));
+    transition: width .3s ease;
+}
+
+.ap-content--md a:not(.ap-download-link):hover::after {
+    width: 100%;
+}
+
+/* 分隔线：渐变 + 中心菱形 */
+.ap-content--md > hr {
+    position: relative;
+    margin: 34px 0;
+    height: 1px;
+    border: 0;
+    background: linear-gradient(90deg, transparent, var(--ap-primary-tint-50), transparent);
+}
+
+.ap-content--md > hr::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: -3px;
+    width: 7px;
+    height: 7px;
+    transform: translateX(-50%) rotate(45deg);
+    background: var(--ap-primary);
+    box-shadow: 0 0 8px var(--ap-primary-tint-60);
+}
+
+/* ---------- 转换板块（产品亮点/资料下载）融入正文卡：不独立包白卡 ---------- */
+.ap-md-section {
+    margin: 30px 0 0;
+}
+
+.ap-md-section .ap-block__title {
+    margin: 0 0 18px;
+}
+
+/* 修复：转换板块嵌在正文内时，main.css 的 .ap-content ul { list-style: disc }
+   优先级高于 .ap-highlight__list 的 none，导致列表项同时出现
+   「disc 圆点 + ::before 圆点」两个标记。这里压掉 disc 与缩进。 */
+.ap-content--md .ap-highlight__list {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+}
+
+.ap-content--md .ap-highlight__list li {
+    margin: 0;
+}
+
+/* ---------- 响应式 ---------- */
+@media (prefers-reduced-motion: reduce) {
+    .ap-content--md ul > li:hover,
+    .ap-content--md ol > li:hover,
+    .ap-content--md img:hover { transform: none; }
+}

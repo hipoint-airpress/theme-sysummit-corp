@@ -1,0 +1,333 @@
+/* ==========================================================================
+   blocks/_base.css — 全站通用板块样式
+   服务页面：全部页面（index / post_* / sheet_*）
+   内容：全局修正、正文下载链接、通用区块（标题 / chips / 按钮变体）、
+         页面 Banner（page-hero）、移动端锚点条（anchor-nav）、
+         资料下载表（ap-files，产品详情 downloads-block 与文档中心 files-block 共用）
+   规范：命名 BEM（ap-块__元素--修饰），状态类 is-*；颜色优先用 main.css 变量
+   ========================================================================== */
+
+/* ---------- 全局修正：让 hidden 属性始终生效 ----------
+   官方 [hidden] 是 UA 样式（display:none），会被本目录 .ap-news-item /
+   .ap-files__row 等 display:grid|flex 的作者样式覆盖，导致前端筛选（新闻分类、
+   资料下载系列）点击后列表无变化。这里统一提到最高优先级。 */
+[hidden] {
+    display: none !important;
+}
+
+/* ---------- 正文里的下载链接（Markdown 链接由 initContentDownloads 增强） ----------
+   选择器要比 .ap-content a 更具体，否则会被正文链接样式（主色 + 下划线）覆盖 */
+.ap-content a.ap-download-link,
+.ap-product__desc a.ap-download-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border: 1px solid var(--ap-primary);
+    border-radius: var(--ap-radius);
+    color: var(--ap-primary);
+    font-size: var(--ds-type-body-md-size);
+    text-decoration: none;
+    transition: all .25s ease;
+}
+
+.ap-content a.ap-download-link::before,
+.ap-product__desc a.ap-download-link::before {
+    content: '';
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+    background: currentColor;
+    /* 下载图标：箭头 + 底线 */
+    clip-path: polygon(6px 0, 8px 0, 8px 7px, 12px 7px, 7px 13px, 2px 7px, 6px 7px);
+}
+
+.ap-content a.ap-download-link:hover,
+.ap-product__desc a.ap-download-link:hover {
+    background: var(--ap-primary);
+    color: #fff;
+}
+
+/* ---------- 通用区块标题 ---------- */
+.ap-block__title {
+    margin: 20px 0;
+    font-size: var(--ds-type-headline-md-size);
+    line-height: var(--ds-type-headline-md-lh);
+    font-weight: 600;
+}
+
+/* 区块居中大标题（源站 .section-title：36px 居中），cards-block / timeline-block 使用 */
+.ap-block__title--center {
+    display: block;
+    margin: 30px 0 32px;
+    font-size: var(--ds-type-headline-lg-size);
+    line-height: var(--ds-type-headline-lg-lh);
+    text-align: center;
+}
+
+/* ---------- 标签筛选 chips（category 筛选、资料下载系列筛选） ---------- */
+.ap-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 20px 0 8px;
+}
+
+.ap-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 7px 16px;
+    border: 1px solid var(--ap-border);
+    border-radius: 999px;
+    font-size: var(--ds-type-body-md-size);
+    color: var(--ap-text-weak);
+    background: var(--ap-bg);
+    cursor: pointer;
+    transition: all .2s ease;
+}
+
+.ap-chip:hover,
+.ap-chip.is-active {
+    border-color: var(--ap-primary);
+    color: var(--ap-primary);
+    background: var(--ap-primary-light);
+}
+
+/* ---------- 按钮变体 ---------- */
+.ap-btn--glass {
+    background: rgba(255, 255, 255, .16);
+    border: 1px solid rgba(255, 255, 255, .5);
+    color: #fff;
+}
+
+.ap-btn--glass:hover {
+    background: rgba(255, 255, 255, .28);
+    color: #fff;
+}
+
+.ap-btn--sm {
+    padding: 6px 14px;
+    font-size: 13px;
+    border-radius: 4px;
+}
+
+.ap-btn--sm svg {
+    width: 14px;
+    height: 14px;
+    margin-right: 4px;
+    vertical-align: -2px;
+}
+
+/* ---------- 页面 Banner（sheet-head 模块：产品中心 / 应用领域 / 公司简介等） ---------- */
+.ap-page-hero {
+    position: relative;
+    padding: 200px 0;
+    text-align: center;
+    color: #fff;
+    background-color: var(--ap-deep-navy);
+    background-position: 0 40%;
+    background-size: cover;
+}
+
+.ap-page-hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, .35);
+}
+
+.ap-page-hero .ap-container {
+    position: relative;
+}
+
+.ap-page-hero__title {
+    margin: 0 0 16px;
+    font-size: var(--ds-type-display-size);
+    line-height: var(--ds-type-display-lh);
+    font-weight: var(--ds-type-display-weight);
+    letter-spacing: var(--ds-type-display-ls);
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.ap-page-hero__desc {
+    margin: 0;
+    font-size: var(--ds-type-headline-md-size);
+    line-height: var(--ds-type-headline-md-lh);
+    opacity: .9;
+}
+
+/* 应用领域等单页：无遮罩，字号对齐源站 applications/*.vue */
+.ap-page-hero--plain::before {
+    display: none;
+}
+
+.ap-page-hero--plain {
+    background-position: 0 50%;
+}
+
+.ap-page-hero--plain .ap-page-hero__title {
+    margin-bottom: 20px;
+    font-size: var(--ds-type-display-size);
+    line-height: var(--ds-type-display-lh);
+    font-weight: var(--ds-type-display-weight);
+    letter-spacing: var(--ds-type-display-ls);
+}
+
+.ap-page-hero--plain .ap-page-hero__desc {
+    max-width: 800px;
+    margin: 0 auto;
+    font-size: var(--ds-type-headline-sm-size);
+    line-height: var(--ds-type-headline-sm-lh);
+}
+
+/* ---------- 移动端系列锚点条（anchors-nav / sections-nav 模块） ---------- */
+.ap-anchor-nav {
+    display: none;
+    background: #fff;
+    border-bottom: 1px solid var(--ap-border);
+
+}
+
+.ap-anchor-nav__list {
+    display: flex;
+    gap: 40px;
+    margin: 0;
+    padding: 15px 0;
+    list-style: none;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.ap-anchor-nav__list::-webkit-scrollbar {
+    display: none;
+}
+
+.ap-anchor-nav__list a {
+    position: relative;
+    display: inline-block;
+    padding: 8px 0;
+    color: var(--ap-text-weak);
+    font-size: var(--ds-type-body-lg-size);
+    transition: color .3s ease;
+}
+
+.ap-anchor-nav__list a::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    width: 0;
+    height: 2px;
+    background: var(--ap-primary);
+    transform: translateX(-50%);
+    transition: width .3s ease;
+}
+
+.ap-anchor-nav__list a:hover,
+.ap-anchor-nav__list a.is-active {
+    color: var(--ap-primary);
+}
+
+.ap-anchor-nav__list a:hover::after,
+.ap-anchor-nav__list a.is-active::after {
+    width: 100%;
+}
+
+/* ---------- 资料下载表（downloads-block / files-block 模块共用） ---------- */
+.ap-files {
+    border: 1px solid var(--ap-border);
+    border-radius: var(--ap-radius-lg);
+    overflow: hidden;
+}
+
+.ap-files__head,
+.ap-files__row {
+    display: grid;
+    grid-template-columns: minmax(0, 3fr) 90px 110px 130px 120px;
+    gap: 12px;
+    align-items: center;
+    padding: 8px 12px;
+}
+
+.ap-files__head {
+    background: var(--ap-bg-gray);
+    color: var(--ap-text-weak);
+    font-size: var(--ds-type-label-md-size);
+}
+
+.ap-files__row {
+    border-top: 1px solid var(--ap-border);
+    font-size: var(--ds-type-body-md-size);
+    color: var(--ap-text-weak);
+    font-variant-numeric: var(--ds-numeric);
+}
+
+.ap-files__row:hover {
+    background: var(--ap-row-hover);
+}
+
+.ap-files__row:nth-child(even) {
+    background: var(--ap-row-zebra);
+}
+
+.ap-files__name {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--ap-text);
+}
+
+.ap-files__name svg {
+    width: 16px;
+    height: 16px;
+    color: var(--ap-primary);
+    flex-shrink: 0;
+}
+
+/* ---------- 响应式 ---------- */
+@media (max-width: 768px) {
+    .ap-block__title--center {
+        margin-bottom: 16px;
+        font-size: var(--ds-type-headline-lg-m-size);
+    }
+
+    .ap-page-hero {
+        padding: 70px 0;
+    }
+
+    .ap-page-hero--plain {
+        padding: 60px 0;
+    }
+
+    .ap-page-hero__title {
+        margin-bottom: 8px;
+        font-size: var(--ds-type-display-m-size);
+    line-height: var(--ds-type-display-m-lh);
+    }
+
+    .ap-page-hero__desc {
+        font-size: var(--ds-type-body-lg-size);
+    }
+
+    .ap-page-hero--plain .ap-page-hero__desc {
+        font-size: var(--ds-type-body-lg-size);
+    }
+
+    .ap-anchor-nav {
+        display: block;
+    }
+
+    .ap-anchor-nav__list {
+        gap: 20px;
+    }
+
+    .ap-files__head { display: none; }
+    .ap-files__row {
+        grid-template-columns: 1fr auto;
+        row-gap: 6px;
+    }
+    .ap-files__row > span:nth-child(2),
+    .ap-files__row > span:nth-child(3),
+    .ap-files__row > span:nth-child(4) { font-size: var(--ds-type-body-sm-size); }
+}

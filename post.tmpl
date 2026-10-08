@@ -1,0 +1,22 @@
+{# 默认文章模板（兜底）：只渲染标题 + 正文，不含分类导航、元信息、分享等区块。文章请在后台「自定义模板」选择对应剧本（news / product） #}
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    {% include "www/module/head" with title=printf("%s - %s", post.Title, settings.company_name|default:blog_title) %}
+</head>
+<body>
+{% include "www/module/header" %}
+
+<article class="ap-page ap-detail">
+    <div class="ap-container">
+        <div class="ap-block">
+            <h1 class="ap-page__title">{{ post.Title }}</h1>
+            {% if post.Content %}<div class="ap-content">{{ post.Content|safe }}</div>{% endif %}
+        </div>
+    </div>
+</article>
+
+{% include "www/module/footer" %}
+{% include "www/module/scripts" %}
+</body>
+</html>

@@ -1,0 +1,61 @@
+{# 产品详情主体（源站 products/[id].vue）：系列导航 + 介绍 hero（正文在左 + 特性 ✓ + 图在右）+ 产品亮点 + 资料下载 #}
+{# 正文兼容富文本（HTML）与 Markdown（editor_type=1，由 marked 前端渲染）；产品结构化内容（特性/亮点/下载）一律用 JSON 格式 metas #}
+{# Markdown 正文需要 marked（www-blocks.js 按 data-markdown 识别渲染），加载在 www-blocks.js 之前的任意位置均可 #}
+<nav class="ap-product-nav">
+    <div class="ap-container">
+        {% set navSeriesSlugs = settings.product_series_slugs|default:""|split:"," %}
+        {% if post.Categories %}{% set currentCatID = post.Categories.0.ID %}{% else %}{% set currentCatID = 0 %}{% endif %}
+        <ul class="ap-product-nav__list">
+            {% for c in listCategory() %}
+                {% if not navSeriesSlugs.0 or c.Slug in navSeriesSlugs %}
+                    <li class="ap-product-nav__item{% if c.ID == currentCatID %} is-active{% endif %}">
+                        <a class="ap-product-nav__link" href="{{ c.FullPath }}">{{ c.Name }}</a>
+                        <ul class="ap-product-nav__sub">
+                            {% for item in listPostByCategoryID(c.ID) %}
+                                <li>
+                                    <a href="{{ item.FullPath }}"{% if item.ID == post.ID %} class="is-active"{% endif %}>{{ item.Title }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+</nav>
+
+<article class="ap-page ap-detail">
+    {# 产品介绍（源站 .product-intro）：标题 + HTML 描述 + 特性 ✓ + 图在右 #}
+    <div class="ap-container">
+        <div class="ap-block">
+            <h1 class="ap-block__title">{{ post.Title }}</h1>
+            <div class="ap-product__hero">
+                <div class="ap-product__intro">
+                    {% if post.Summary %}
+                        <p class="ap-card__desc">{{ post.Summary|striptags }}</p>
+                    {% endif %}
+                    <ul class="ap-product__features">
+                        {% for meta in metas %}
+                            {% if meta.Key == "product_features" and meta.Value %}
+                                {% set features = from_json(meta.Value) %}
+                                {% if features %}
+                                    {% for f in features %}
+                                        <li>{% include "www/module/icon" with name="check" %}<span>{{ f }}</span></li>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="ap-product__image">
+                    {% if post.Thumbnail %}
+                        <img src="{{ post.Thumbnail }}" alt="{{ post.Title }}"/>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% include "www/module/highlights-block" %}
+    {% include "www/module/downloads-block" %}
+</article>

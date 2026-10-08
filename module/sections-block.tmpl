@@ -1,0 +1,26 @@
+{# 应用领域图文区块（源站 applications）：sections = "标题::描述::图片::标签1/标签2"，偶数项左右翻转。需放在 .ap-container 内以获得定宽与留白 #}
+{% for meta in metas %}
+    {% if meta.Key == "sections" and meta.Value %}
+        <div class="ap-sections">
+            {% for item in meta.Value|split:"|" %}
+                {% set s = item|split:"::" %}
+                <div class="ap-section-alt" id="section-{{ forloop.Counter }}">
+                    <div class="ap-section-alt__text">
+                        <h2 class="ap-section-alt__title">{{ s.0 }}</h2>
+                        {% if s.1 %}<p class="ap-section-alt__desc">{{ s.1 }}</p>{% endif %}
+                        {% if s.3 %}
+                            <div class="ap-section-alt__tags">
+                                {% for tag in s.3|split:"/" %}
+                                    {% if tag %}<span class="ap-section-alt__tag">{{ tag }}</span>{% endif %}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="ap-section-alt__image">
+                        {% if s.2 %}<img src="{{ s.2 }}" alt="{{ s.0 }}" loading="lazy"/>{% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endfor %}

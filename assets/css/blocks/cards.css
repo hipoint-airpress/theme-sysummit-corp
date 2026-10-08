@@ -1,0 +1,50 @@
+/* ==========================================================================
+   blocks/cards.css — 通用卡片区块样式
+   服务页面：使用 cards-block 模块的页面（sheet_company / sheet_services / sheet_page）
+   内容：卡片图标（ap-card__icon）、区块底部配图（ap-block__image）、静态卡片修饰
+   ========================================================================== */
+
+/* 静态卡片（无跳转，去除手型光标） */
+.ap-card--static {
+    cursor: default;
+}
+
+/* 卡片图标（源站 .quality-card .card-icon：70px 圆形图标） */
+.ap-card__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 70px;
+    height: 70px;
+    margin: 24px auto 16px;
+    border-radius: 50%;
+    background: var(--ap-primary-tint-10);
+    color: var(--ap-primary);
+    font-size: 30px;
+    margin-bottom: 0;
+}
+
+.ap-card__icon .ap-icon {
+    width: 30px;
+    height: 30px;
+}
+
+/* 卡片区块底部配图（源站 .quality-image） */
+.ap-block__image {
+    margin-top: 40px;
+    text-align: center;
+}
+
+.ap-block__image img {
+    max-width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .1);
+    margin: auto;
+}
+
+/* ---------- 响应式 ---------- */
+@media (max-width: 768px) {
+    .ap-block__image {
+        margin-top: 20px;
+    }
+}

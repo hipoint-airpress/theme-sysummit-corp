@@ -1,0 +1,214 @@
+/* ==========================================================================
+   blocks/_tokens.css — 设计令牌（Design Tokens）
+   来源：DESIGN.md（Precision Semiconductor & Signal Chain 设计规范）
+   架构：双层令牌 ——
+     --ds-*  原始令牌层：与 DESIGN.md 令牌一一对应，本文件唯一定义处
+     --ap-*  语义层：现有主题变量（main.css / styles.tmpl），迁移期并存，
+             按 DESIGN-UPGRADE-PLAN.md 分版本切换到 --ds-*
+   约定：业务样式只允许消费 --ap-* 语义层；--ds-* 仅供语义层映射与组件规范对齐
+   ========================================================================== */
+
+:root {
+    /* ---------- 色彩 · 品牌主色 ----------
+       口径：采用 DESIGN.md 令牌表 primary（#003e6f），决策项 D1 已拍板。
+       --ap-primary 品牌主色仍由后台「主题设置 primary_color」驱动（styles.tmpl 内联注入），
+       此处不定义 --ap-primary，避免覆盖用户配置；
+       用户改后台主色时需同步调整下方按钮三态（见 DESIGN-UPGRADE-PLAN.md 决策项 D2 说明）。 */
+    --ds-primary: #003e6f;               /* 品牌主操作色（按钮/激活态/导航） */
+    --ds-on-primary: #ffffff;
+    --ds-primary-container: #005596;
+    --ds-on-primary-container: #a4caff;
+    --ds-primary-fixed: #d3e4ff;
+    --ds-primary-fixed-dim: #a2c9ff;
+    --ds-on-primary-fixed: #001c38;
+    --ds-on-primary-fixed-variant: #004881;
+    --ds-inverse-primary: #a2c9ff;
+
+    /* 按钮三态（基于 #003e6f 推导：hover 约加深 20%、active 约加深 35%） */
+    --ds-btn-primary-bg: #003e6f;
+    --ds-btn-primary-hover: #003259;
+    --ds-btn-primary-active: #002848;
+    --ds-btn-secondary-hover-tint: #f0f6fa;
+
+    /* ---------- 色彩 · 次级/三级（同取 DESIGN.md 令牌表口径） ---------- */
+    --ds-secondary: #00639a;             /* 交互高亮 / 次级链接 / 进度提示 */
+    --ds-on-secondary: #ffffff;
+    --ds-secondary-container: #58b5ff;
+    --ds-on-secondary-container: #00456d;
+    --ds-secondary-fixed: #cee5ff;
+    --ds-secondary-fixed-dim: #96ccff;
+    --ds-on-secondary-fixed: #001d32;
+    --ds-on-secondary-fixed-variant: #004a75;
+
+    --ds-tertiary: #223d64;
+    --ds-on-tertiary: #ffffff;
+    --ds-tertiary-container: #3b547d;
+    --ds-on-tertiary-container: #afc9f8;
+    --ds-tertiary-fixed: #d6e3ff;
+    --ds-tertiary-fixed-dim: #aec7f7;
+    --ds-on-tertiary-fixed: #001b3d;
+    --ds-on-tertiary-fixed-variant: #2e476f;
+
+    /* ---------- 色彩 · 表面体系 ---------- */
+    --ds-surface: #f9f9ff;
+    --ds-surface-dim: #d0daf2;
+    --ds-surface-bright: #f9f9ff;
+    --ds-surface-container-lowest: #ffffff;
+    --ds-surface-container-low: #f0f3ff;
+    --ds-surface-container: #e8eeff;
+    --ds-surface-container-high: #dfe8ff;
+    --ds-surface-container-highest: #d8e3fb;
+    --ds-on-surface: #111c2d;
+    --ds-on-surface-variant: #414750;
+    --ds-inverse-surface: #273143;
+    --ds-inverse-on-surface: #ecf0ff;
+    --ds-inverse-muted: rgba(236, 240, 255, .6); /* 深色底上的弱化文字 */
+    --ds-outline: #727781;
+    --ds-outline-variant: #c1c7d2;
+    --ds-surface-tint: #1b60a2;
+    --ds-surface-variant: #d8e3fb;
+    --ds-background: #f9f9ff;
+    --ds-on-background: #111c2d;
+
+    /* 工程口径中性色（正文/组件规范使用） */
+    --ds-surface-canvas: #f4f6f8;        /* 参数表/规格区分隔底色 */
+    --ds-surface-border: #d8dee4;        /* 低对比结构边框（1px） */
+    --ds-deep-navy: #0b1f38;             /* 深海军蓝：技术区块 / 高密度表头 */
+    --ds-row-zebra: #fbfcfd;             /* 表格斑马纹 */
+    --ds-row-hover: #f0f6fa;             /* 表格/列表行 hover */
+    --ds-focus-ring: #0083ca;            /* 输入聚焦 2px ring */
+    --ds-input-border: #d8dee4;
+    --ds-checkbox-border: #4c566a;
+
+    /* ---------- 色彩 · 功能色（生命周期/状态专用，禁止挪作装饰） ---------- */
+    --ds-signal-green: #28853d;          /* 量产中 */
+    --ds-signal-green-tint: #e8f5e9;
+    --ds-alert-amber: #d97706;           /* NRND / 警示 */
+    --ds-alert-amber-tint: #fff8e1;
+    --ds-critical-red: #d32f2f;          /* 停产 / 错误 */
+    --ds-error: #ba1a1a;
+    --ds-on-error: #ffffff;
+    --ds-error-container: #ffdad6;
+    --ds-on-error-container: #93000a;
+
+    /* ---------- 字体族 ----------
+       D3 拍板：不引入外部字体，使用系统字体栈（display 与 body 当前同栈，
+       保留两个变量便于未来分化；标题靠字重/字号区分层级） */
+    --ds-font-display: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+    --ds-font-body: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+    --ds-numeric: tabular-nums;          /* 参数表数字：等宽数字，保证小数点对齐 */
+
+    /* ---------- 字阶（Typography） ----------
+       命名：--ds-type-<角色>-<size|lh|weight|ls>；-m 后缀为移动端变体 */
+    /* display */
+    --ds-type-display-size: 48px;
+    --ds-type-display-lh: 56px;
+    --ds-type-display-weight: 700;
+    --ds-type-display-ls: -0.02em;
+    --ds-type-display-m-size: 32px;
+    --ds-type-display-m-lh: 40px;
+    --ds-type-display-m-weight: 700;
+    --ds-type-display-m-ls: -0.01em;
+    /* headline-lg */
+    --ds-type-headline-lg-size: 32px;
+    --ds-type-headline-lg-lh: 40px;
+    --ds-type-headline-lg-weight: 600;
+    --ds-type-headline-lg-ls: -0.015em;
+    --ds-type-headline-lg-m-size: 24px;
+    --ds-type-headline-lg-m-lh: 32px;
+    --ds-type-headline-lg-m-weight: 600;
+    --ds-type-headline-lg-m-ls: -0.01em;
+    /* headline-md */
+    --ds-type-headline-md-size: 24px;
+    --ds-type-headline-md-lh: 32px;
+    --ds-type-headline-md-weight: 600;
+    --ds-type-headline-md-ls: -0.01em;
+    /* headline-sm */
+    --ds-type-headline-sm-size: 20px;
+    --ds-type-headline-sm-lh: 28px;
+    --ds-type-headline-sm-weight: 600;
+    /* title-md / title-sm（Inter） */
+    --ds-type-title-md-size: 16px;
+    --ds-type-title-md-lh: 24px;
+    --ds-type-title-md-weight: 600;
+    --ds-type-title-sm-size: 14px;
+    --ds-type-title-sm-lh: 20px;
+    --ds-type-title-sm-weight: 600;
+    /* body-lg / body-md / body-sm（Inter） */
+    --ds-type-body-lg-size: 16px;
+    --ds-type-body-lg-lh: 26px;
+    --ds-type-body-lg-weight: 400;
+    --ds-type-body-md-size: 14px;
+    --ds-type-body-md-lh: 22px;
+    --ds-type-body-md-weight: 400;
+    --ds-type-body-sm-size: 12px;
+    --ds-type-body-sm-lh: 18px;
+    --ds-type-body-sm-weight: 400;
+    /* label-md / label-sm（Inter） */
+    --ds-type-label-md-size: 12px;
+    --ds-type-label-md-lh: 16px;
+    --ds-type-label-md-weight: 500;
+    --ds-type-label-md-ls: 0.02em;
+    --ds-type-label-sm-size: 11px;
+    --ds-type-label-sm-lh: 14px;
+    --ds-type-label-sm-weight: 600;
+    --ds-type-label-sm-ls: 0.04em;
+
+    /* ---------- 圆角（Shapes：Soft，最小化圆角） ---------- */
+    --ds-radius-sm: 0.125rem;            /* 2px：徽章/生命周期标签 */
+    --ds-radius: 0.25rem;                /* 4px：默认（按钮/输入框/筛选标签） */
+    --ds-radius-md: 0.375rem;            /* 6px */
+    --ds-radius-lg: 0.5rem;              /* 8px：大卡片 */
+    --ds-radius-xl: 0.75rem;             /* 12px */
+    --ds-radius-full: 9999px;
+
+    /* ---------- 间距 ---------- */
+    --ds-gutter: 1.5rem;                 /* 桌面栅格槽宽 24px */
+    --ds-gutter-m: 1rem;                 /* 平板/移动 16px */
+    --ds-margin: 3rem;                   /* 桌面页边距 48px */
+    --ds-margin-m: 1rem;                 /* 移动页边距 16px */
+    --ds-space-xs: 0.25rem;
+    --ds-space-sm: 0.5rem;
+    --ds-space-md: 1rem;
+    --ds-space-lg: 1.5rem;
+    --ds-space-xl: 2.5rem;
+
+    /* ---------- 布局（12 列栅格，桌面最大 1440px） ---------- */
+    --ds-container-max: 1440px;          /* D4 拍板：容器由 1200px 升级为 1440px */
+
+    /* ---------- 阴影（Elevation：克制投影，仅交互态） ----------
+       层级体系：0 基面 → 1 卡片(默认无影，hover 才有) → 2 浮层 → 3 吸附栏(实底+边框) */
+    --ds-shadow-card-hover: 0 4px 12px rgba(11, 31, 56, .06);
+    --ds-shadow-dropdown: 0 8px 24px rgba(11, 31, 56, .12);
+    --ds-shadow-btn: 0 1px 2px rgba(0, 0, 0, .05);
+
+    /* ---------- 代码窗口（content-markdown 专属组件） ---------- */
+    --ds-code-bg-from: #131826;
+    --ds-code-bg-to: #0d1119;
+    --ds-code-text: #d7e0f5;
+    --ds-dot-red: #ff5f57;
+    --ds-dot-yellow: #febc2e;
+    --ds-dot-green: #28c840;
+
+    /* ---------- 首页特效（Home FX，v2.1） ----------
+       首屏遮罩 / 交替区块底色 / 装饰光晕：index.css 消费，经 --ap-* 语义层映射 */
+    --ds-surface-section-alt: #edf2f8;           /* 首页交替区块冷调浅底 */
+    --ds-hero-mask-from: rgba(11, 31, 56, .78);  /* 首屏遮罩起点（deep-navy） */
+    --ds-hero-mask-to: rgba(11, 31, 56, .12);    /* 首屏遮罩终点 */
+    --ds-glow-primary: rgba(0, 62, 111, .05);    /* 主色装饰光晕 */
+    --ds-glow-secondary: rgba(0, 99, 154, .045); /* 次色装饰光晕 */
+    --ds-glow-inverse: rgba(162, 201, 255, .10); /* 深色区块装饰光晕（inverse-primary 系） */
+
+    /* 深色区块控件（应用领域 Tab 玻璃态） */
+    --ds-dark-chip-bg: rgba(236, 240, 255, .05);
+    --ds-dark-chip-border: rgba(236, 240, 255, .14);
+    --ds-dark-chip-hover-bg: rgba(236, 240, 255, .10);
+    --ds-dark-chip-active-bg: rgba(162, 201, 255, .14);
+    --ds-dark-chip-active-border: rgba(162, 201, 255, .5);
+
+    /* 深色区块底色（应用领域）：柔和藏青双停点，替代近黑的 inverse-surface→deep-navy 直铺 */
+    --ds-surface-section-dark-from: #2c4a70;
+    --ds-surface-section-dark-to: #1c3454;
+}

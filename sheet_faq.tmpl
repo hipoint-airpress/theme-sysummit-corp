@@ -1,0 +1,17 @@
+{# 常见问题页：Banner + 正文 + 问答折叠面板 #}
+{% include "www/module/sheet-head" %}
+
+<div class="ap-page">
+    <div class="ap-container">
+        {% if post.Content %}
+            <div class="ap-content" id="apIntro">{{ post.Content|safe }}</div>
+        {% endif %}
+
+        {% include "www/module/faq-block" %}
+    </div>
+</div>
+
+{% include "www/module/footer" %}
+{% include "www/module/scripts" %}
+</body>
+</html>

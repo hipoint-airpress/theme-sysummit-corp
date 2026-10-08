@@ -1,0 +1,61 @@
+/* ==========================================================================
+   blocks/sheet-faq.css — 常见问题板块样式
+   服务页面：sheet_faq.tmpl（页面模板 faq）；faq-block 也被 sheet_services / sheet_page 复用
+   关联模板：module/faq-block（折叠交互见 www-blocks.js initFaq）
+   ========================================================================== */
+
+.ap-faq {
+    border-top: 1px solid var(--ap-border);
+}
+
+.ap-faq__item {
+    border-bottom: 1px solid var(--ap-border);
+}
+
+.ap-faq__q {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    width: 100%;
+    padding: 18px 4px;
+    border: none;
+    background: none;
+    text-align: left;
+    font-size: var(--ds-type-title-md-size);
+    line-height: var(--ds-type-title-md-lh);
+    color: var(--ap-text);
+    cursor: pointer;
+}
+
+.ap-faq__q svg {
+    width: 18px;
+    height: 18px;
+    color: var(--ap-text-light);
+    transition: transform .25s ease;
+    flex-shrink: 0;
+}
+
+.ap-faq__item.is-open .ap-faq__q {
+    color: var(--ap-primary);
+}
+
+.ap-faq__item.is-open .ap-faq__q svg {
+    transform: rotate(180deg);
+    color: var(--ap-primary);
+}
+
+.ap-faq__a {
+    display: none;
+    padding: 0 4px 18px;
+}
+
+.ap-faq__item.is-open .ap-faq__a {
+    display: block;
+}
+
+.ap-faq__a p {
+    margin: 0;
+    color: var(--ap-text-weak);
+    line-height: 1.9;
+}

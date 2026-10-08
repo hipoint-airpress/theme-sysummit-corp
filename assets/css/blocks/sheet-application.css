@@ -1,0 +1,120 @@
+/* ==========================================================================
+   blocks/sheet-application.css — 应用领域页面样式
+   服务页面：sheet_application.tmpl（页面模板 application）；sections-block 也被 sheet_page 复用
+   关联模板：module/sections-block（图文交替区块）、module/sections-nav（页内锚点导航）
+   内容：页内吸附锚点导航（ap-anchor-nav--page）、图文左右交替区块（ap-sections）
+   ========================================================================== */
+
+/* 页内锚点导航：吸顶（移动端基础样式 .ap-anchor-nav 在 _base.css） */
+.ap-anchor-nav--page {
+    display: block;
+    position: sticky;
+    top: var(--ap-header-now, var(--ap-header-h));
+    z-index: 90;
+
+}
+
+.ap-anchor-nav--page .ap-anchor-nav__list {
+    padding: 20px 0;
+}
+
+/* ---------- 应用领域图文区块（图右文左交替） ---------- */
+.ap-sections {
+    display: flex;
+    flex-direction: column;
+    gap: 100px;
+}
+
+.ap-section-alt {
+    display: flex;
+    align-items: center;
+    gap: 140px;
+    scroll-margin-top: 140px;
+}
+
+.ap-section-alt:nth-child(even) {
+    flex-direction: row-reverse;
+}
+
+.ap-section-alt__text {
+    flex: 1;
+    min-width: 0;
+}
+
+.ap-section-alt__title {
+    margin: 0 0 20px;
+    font-size: var(--ds-type-headline-lg-size);
+    line-height: var(--ds-type-headline-lg-lh);
+    font-weight: 600;
+    color: var(--ap-text);
+}
+
+.ap-section-alt__desc {
+    margin: 0 0 30px;
+    color: var(--ap-text-weak);
+    line-height: 1.8;
+}
+
+.ap-section-alt__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.ap-section-alt__tag {
+    padding: 8px 16px;
+    border-radius: 20px;
+    background: var(--ap-primary-tint-10);
+    color: var(--ap-primary);
+    font-size: var(--ds-type-body-md-size);
+}
+
+.ap-section-alt__image {
+    flex: 1;
+    min-width: 0;
+}
+
+.ap-section-alt__image img {
+    width: 100%;
+    height: 420px;
+    object-fit: cover;
+    border-radius: 12px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, .1);
+}
+
+/* ---------- 响应式 ---------- */
+@media (max-width: 1024px) {
+    .ap-section-alt,
+    .ap-section-alt:nth-child(even) {
+        flex-direction: column;
+        gap: 40px;
+    }
+
+    .ap-sections {
+        gap: 60px;
+    }
+}
+
+@media (max-width: 768px) {
+    .ap-sections {
+        gap: 40px;
+    }
+
+    .ap-section-alt {
+        gap: 20px;
+        scroll-margin-top: 120px;
+    }
+
+    .ap-section-alt__title {
+        margin-bottom: 10px;
+        font-size: var(--ds-type-headline-sm-size);
+    }
+
+    .ap-section-alt__desc {
+        margin-bottom: 16px;
+    }
+
+    .ap-section-alt__image img {
+        height: 260px;
+    }
+}

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    {% include "www/module/head" with title=printf("%s - %s", category.Name, settings.company_name|default:blog_title) %}
+</head>
+<body>
+{% include "www/module/header" %}
+
+<div class="ap-page">
+    <div class="ap-container">
+        <h1 class="ap-page__title">{{ category.Name }}</h1>
+        <div class="ap-page__meta">
+            {% if category.Description %}<span>{{ category.Description }}</span>{% endif %}
+            <span>共 {{ posts.Total }} 款产品</span>
+        </div>
+
+        <div class="ap-chips">
+            {% set categories = listCategory() %}
+            {% for item in categories %}
+                {# news 分类属于新闻中心，不出现在产品系列切换里 #}
+                {% if item.Slug != "news" %}
+                <a class="ap-chip {% if item.Slug == category.Slug %}is-active{% endif %}" href="{{ item.FullPath }}" title="{{ item.Name }}">{{ item.Name }}</a>
+                {% endif %}
+            {% endfor %}
+        </div>
+
+        <div class="ap-grid ap-grid--3" style="margin-top:24px">
+            {% if posts.HasContent %}
+                {% for product in posts.Content %}
+                    <a class="ap-card" href="{{ product.FullPath }}" title="{{ product.Title }}">
+                        <div class="ap-card__thumb">
+                            {% if product.Thumbnail %}
+                                <img src="{{ product.Thumbnail }}" alt="{{ product.Title }}"/>
+                            {% endif %}
+                        </div>
+                        <div class="ap-card__body">
+                            <h3 class="ap-card__title">{{ product.Title }}</h3>
+                            {% if product.Summary %}
+                                <p class="ap-card__desc">{{ product.Summary|striptags|truncatechars:60 }}</p>
+                            {% endif %}
+                        </div>
+                    </a>
+                {% endfor %}
+            {% else %}
+                <div class="ap-empty">该系列暂无产品</div>
+            {% endif %}
+        </div>
+
+        {% if posts.Pages > 1 %}
+            {% set pagination = categoryPostsPagination(posts.PageNum, posts.Pages, 3, category.Slug) %}
+            {% set total = posts.Total %}
+            {% include "www/module/pagination" %}
+        {% endif %}
+    </div>
+</div>
+
+{% include "www/module/footer" %}
+{% include "www/module/scripts" %}
+</body>
+</html>

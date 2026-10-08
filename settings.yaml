@@ -1,0 +1,669 @@
+basic:
+  label: 基础设置
+  items:
+    company_name:
+      name: company_name
+      label: 公司名称
+      type: text
+      data-type: string
+      default: '六岳微电子'
+    logo:
+      name: logo
+      label: 站点 Logo
+      type: attachment
+      data-type: string
+      default: 'https://cdn.newaigou.com/sysummit/assets/image/logo.png'
+    logo_text:
+      name: logo_text
+      label: 站点名称（文字 Logo）
+      type: text
+      data-type: string
+      default: '六岳微电子'
+      description: 未上传 Logo 图片时显示
+    primary_color:
+      name: primary_color
+      label: 主题色
+      type: text
+      data-type: string
+      default: '#409eff'
+      placeholder: '#409eff'
+    news_url:
+      name: news_url
+      label: 「新闻」链接
+      type: text
+      data-type: string
+      default: '/archives'
+    login_url:
+      name: login_url
+      label: 「登录」链接
+      type: text
+      data-type: string
+      default: '/admin'
+      description: 顶部条右侧登录入口，留空则不显示
+    contact_phone:
+      name: contact_phone
+      label: 联系电话
+      type: text
+      data-type: string
+      default: '181-6371-7051'
+    contact_tel:
+      name: contact_tel
+      label: 联系电话（拨号用）
+      type: text
+      data-type: string
+      default: '18163717051'
+      description: '去掉分隔符，用于 tel: 链接'
+    contact_email:
+      name: contact_email
+      label: 销售邮箱
+      type: text
+      data-type: string
+      default: 'sale@sysummit.com'
+    contact_email2:
+      name: contact_email2
+      label: 技术支持邮箱
+      type: text
+      data-type: string
+      default: 'support@sysummit.com'
+    contact_address:
+      name: contact_address
+      label: 公司地址
+      type: textarea
+      data-type: string
+      default: '湖南省长沙市开福区金辉商务中心3楼'
+    contact_url:
+      name: contact_url
+      label: 「联系我们」按钮链接
+      type: text
+      data-type: string
+      default: '/s/contact'
+    beian_no:
+      name: beian_no
+      label: 公安备案号
+      type: text
+      data-type: string
+      default: '湘公网安备43010502001925号-1'
+      description: 页脚版权区展示，留空则不显示
+    beian_code:
+      name: beian_code
+      label: 公安备案链接代码
+      type: text
+      data-type: string
+      default: '43010502001925'
+      description: 公安备案链接 recordcode 参数，与公安备案号对应
+    icp:
+      name: icp
+      label: ICP 备案号
+      type: text
+      data-type: string
+      default: '湘ICP备2025147673号-1'
+    copyright:
+      name: copyright
+      label: 版权信息
+      type: textarea
+      data-type: string
+      default: '©2025 六岳微电子 All rights reserved.'
+home:
+  label: 首页设置
+  items:
+    home_title:
+      name: home_title
+      label: 首页 SEO 标题
+      type: text
+      data-type: string
+      default: '首页 - 六岳微电子 | 专业RISC-V半导体芯片设计与解决方案提供商'
+      description: 浏览器标签页标题，与源站 definePageMeta 一致；留空则用站点标题
+    banner_image:
+      name: banner_image
+      label: 首屏背景图
+      type: attachment
+      data-type: string
+      default: 'https://cdn.newaigou.com/sysummit/assets/image/banner.jpg'
+    banner_title:
+      name: banner_title
+      label: 首屏主标题
+      type: text
+      data-type: string
+      default: '创新科技 引领未来'
+    banner_subtitle:
+      name: banner_subtitle
+      label: 首屏副标题
+      type: text
+      data-type: string
+      default: '专注半导体技术研发，为工业革新提供核心动力'
+    banner_link_text:
+      name: banner_link_text
+      label: 首屏按钮文字
+      type: text
+      data-type: string
+      default: '了解更多'
+    banner_link:
+      name: banner_link
+      label: 首屏按钮链接
+      type: text
+      data-type: string
+      default: '/s/products'
+    home_news_count:
+      name: home_news_count
+      label: 首页动态展示条数
+      type: text
+      data-type: string
+      default: '0'
+      description: 源站首页无该区块；设为 0 则不显示，设为 3 等数字表示在首页展示最新 N 条新闻
+    section_application_title:
+      name: section_application_title
+      label: 「应用领域」标题
+      type: text
+      data-type: string
+      default: '应用领域'
+    section_application_desc:
+      name: section_application_desc
+      label: 「应用领域」描述
+      type: textarea
+      data-type: string
+      default: '为多个行业提供创新解决方案'
+    section_advantage_title:
+      name: section_advantage_title
+      label: 「核心业务」标题
+      type: text
+      data-type: string
+      default: '全面的芯片设计解决方案提供商'
+    section_advantage_desc:
+      name: section_advantage_desc
+      label: 「核心业务」描述
+      type: textarea
+      data-type: string
+      default: '我们在芯片设计领域沉淀多年，积累了丰富的研发底蕴，为客户提供更好的产品和服务，让您更专注于您的业务。'
+    section_news_title:
+      name: section_news_title
+      label: 「新闻动态」标题
+      type: text
+      data-type: string
+      default: '新闻动态'
+application:
+  label: 首页 - 应用领域
+  items:
+    app1_title:
+      name: app1_title
+      label: 领域 1 标题
+      type: text
+      data-type: string
+      default: '工业应用'
+    app1_desc:
+      name: app1_desc
+      label: 领域 1 描述
+      type: textarea
+      data-type: string
+      default: '工业自动化正经历着前所未有的技术变革，而芯片作为这一进程中的关键组成部分，其性能和可靠性对整个系统的效能有着决定性影响。六岳微电子推出的芯片产品助力工业生产向更高效、智能的方向发展。'
+    app1_image:
+      name: app1_image
+      label: 领域 1 图片
+      type: attachment
+      data-type: string
+      default: 'https://cdn.newaigou.com/sysummit/assets/image/application/industrial/bg.jpg'
+    app1_link:
+      name: app1_link
+      label: 领域 1 链接
+      type: text
+      data-type: string
+      default: '/s/app-industrial'
+    app1_icon:
+      name: app1_icon
+      label: 领域 1 图标
+      type: select
+      data-type: string
+      default: 'factory'
+      options:
+        - value: 'factory'
+          label: 工业
+        - value: 'flash'
+          label: 电力
+        - value: 'car'
+          label: 汽车
+        - value: 'device'
+          label: 消费
+    app2_title:
+      name: app2_title
+      label: 领域 2 标题
+      type: text
+      data-type: string
+      default: '汽车电子'
+    app2_desc:
+      name: app2_desc
+      label: 领域 2 描述
+      type: textarea
+      data-type: string
+      default: '随着智能汽车技术的快速发展，汽车电子领域对高性能微控制器的需求日益增加。六岳微电子推出的高性能工业应用级芯片，以满足未来智能化、网络化、电动化汽车的技术要求。'
+    app2_image:
+      name: app2_image
+      label: 领域 2 图片
+      type: attachment
+      data-type: string
+      default: 'https://cdn.newaigou.com/sysummit/assets/image/application/automotive/bg.jpg'
+    app2_link:
+      name: app2_link
+      label: 领域 2 链接
+      type: text
+      data-type: string
+      default: '/s/app-automotive'
+    app2_icon:
+      name: app2_icon
+      label: 领域 2 图标
+      type: select
+      data-type: string
+      default: 'car'
+      options:
+        - value: 'factory'
+          label: 工业
+        - value: 'flash'
+          label: 电力
+        - value: 'car'
+          label: 汽车
+        - value: 'device'
+          label: 消费
+    app3_title:
+      name: app3_title
+      label: 领域 3 标题
+      type: text
+      data-type: string
+      default: '电力能源'
+    app3_desc:
+      name: app3_desc
+      label: 领域 3 描述
+      type: textarea
+      data-type: string
+      default: '新能源技术正在引领全球能源与环境的可持续发展。六岳微电子推出的工业应用芯片因其高效能、低功耗的特性，并实现了高精度的监控和控制，赋能新能源领域创新。'
+    app3_image:
+      name: app3_image
+      label: 领域 3 图片
+      type: attachment
+      data-type: string
+      default: 'https://cdn.newaigou.com/sysummit/assets/image/application/energy/bg.jpg'
+    app3_link:
+      name: app3_link
+      label: 领域 3 链接
+      type: text
+      data-type: string
+      default: '/s/app-energy'
+    app3_icon:
+      name: app3_icon
+      label: 领域 3 图标
+      type: select
+      data-type: string
+      default: 'flash'
+      options:
+        - value: 'factory'
+          label: 工业
+        - value: 'flash'
+          label: 电力
+        - value: 'car'
+          label: 汽车
+        - value: 'device'
+          label: 消费
+    app4_title:
+      name: app4_title
+      label: 领域 4 标题
+      type: text
+      data-type: string
+      default: '消费电子'
+    app4_desc:
+      name: app4_desc
+      label: 领域 4 描述
+      type: textarea
+      data-type: string
+      default: '芯片是现代电子设备的核心组成部分，负责执行各种复杂的计算和控制任务。六岳微电子持续推出性能不断提升，功耗不断降低的芯片产品，助力消费电子设备更加强大、高效和便携。'
+    app4_image:
+      name: app4_image
+      label: 领域 4 图片
+      type: attachment
+      data-type: string
+      default: 'https://cdn.newaigou.com/sysummit/assets/image/application/consumer/bg.jpg'
+    app4_link:
+      name: app4_link
+      label: 领域 4 链接
+      type: text
+      data-type: string
+      default: '/s/app-consumer'
+    app4_icon:
+      name: app4_icon
+      label: 领域 4 图标
+      type: select
+      data-type: string
+      default: 'device'
+      options:
+        - value: 'factory'
+          label: 工业
+        - value: 'flash'
+          label: 电力
+        - value: 'car'
+          label: 汽车
+        - value: 'device'
+          label: 消费
+advantage:
+  label: 首页 - 核心业务
+  items:
+    adv1_title:
+      name: adv1_title
+      label: 业务 1 标题
+      type: text
+      data-type: string
+      default: '数字设计'
+    adv1_desc:
+      name: adv1_desc
+      label: 业务 1 描述
+      type: textarea
+      data-type: string
+      default: '持续投入研发，掌握核心技术'
+    adv1_icon:
+      name: adv1_icon
+      label: 业务 1 图标
+      type: select
+      data-type: string
+      default: 'chip'
+      options:
+        - value: 'chip'
+          label: 芯片
+        - value: 'wave'
+          label: 波形
+        - value: 'layout'
+          label: 版图
+        - value: 'tools'
+          label: 工具
+        - value: 'shield'
+          label: 安全
+        - value: 'flash'
+          label: 能效
+    adv2_title:
+      name: adv2_title
+      label: 业务 2 标题
+      type: text
+      data-type: string
+      default: '模拟设计'
+    adv2_desc:
+      name: adv2_desc
+      label: 业务 2 描述
+      type: textarea
+      data-type: string
+      default: '用模拟电路连接数字世界与现实世界'
+    adv2_icon:
+      name: adv2_icon
+      label: 业务 2 图标
+      type: select
+      data-type: string
+      default: 'wave'
+      options:
+        - value: 'chip'
+          label: 芯片
+        - value: 'wave'
+          label: 波形
+        - value: 'layout'
+          label: 版图
+        - value: 'tools'
+          label: 工具
+        - value: 'shield'
+          label: 安全
+        - value: 'flash'
+          label: 能效
+    adv3_title:
+      name: adv3_title
+      label: 业务 3 标题
+      type: text
+      data-type: string
+      default: '后端设计'
+    adv3_desc:
+      name: adv3_desc
+      label: 业务 3 描述
+      type: textarea
+      data-type: string
+      default: '将逻辑电路转化为实体芯片的关键工艺'
+    adv3_icon:
+      name: adv3_icon
+      label: 业务 3 图标
+      type: select
+      data-type: string
+      default: 'layout'
+      options:
+        - value: 'chip'
+          label: 芯片
+        - value: 'wave'
+          label: 波形
+        - value: 'layout'
+          label: 版图
+        - value: 'tools'
+          label: 工具
+        - value: 'shield'
+          label: 安全
+        - value: 'flash'
+          label: 能效
+    adv4_title:
+      name: adv4_title
+      label: 业务 4 标题
+      type: text
+      data-type: string
+      default: '生态软件'
+    adv4_desc:
+      name: adv4_desc
+      label: 业务 4 描述
+      type: textarea
+      data-type: string
+      default: '芯片设计制造的智能助手，提升研发效率'
+    adv4_icon:
+      name: adv4_icon
+      label: 业务 4 图标
+      type: select
+      data-type: string
+      default: 'tools'
+      options:
+        - value: 'chip'
+          label: 芯片
+        - value: 'wave'
+          label: 波形
+        - value: 'layout'
+          label: 版图
+        - value: 'tools'
+          label: 工具
+        - value: 'shield'
+          label: 安全
+        - value: 'flash'
+          label: 能效
+value:
+  label: 首页 - 增值服务
+  items:
+    val1_title:
+      name: val1_title
+      label: 服务 1 标题
+      type: text
+      data-type: string
+      default: '软硬结合的芯片产品'
+    val1_desc:
+      name: val1_desc
+      label: 服务 1 描述
+      type: textarea
+      data-type: string
+      default: '为客户提供软硬件结合的芯片产品'
+    val1_link:
+      name: val1_link
+      label: 服务 1 链接
+      type: text
+      data-type: string
+      default: '/s/products'
+    val2_title:
+      name: val2_title
+      label: 服务 2 标题
+      type: text
+      data-type: string
+      default: '一站式的设计服务'
+    val2_desc:
+      name: val2_desc
+      label: 服务 2 描述
+      type: textarea
+      data-type: string
+      default: '为客户提供芯片研发到生态软件的一站式设计服务'
+    val2_link:
+      name: val2_link
+      label: 服务 2 链接
+      type: text
+      data-type: string
+      default: '/s/services'
+product:
+  label: 产品中心
+  items:
+    products_title:
+      name: products_title
+      label: 产品中心标题
+      type: text
+      data-type: string
+      default: '产品中心'
+    products_seo_title:
+      name: products_seo_title
+      label: 产品中心 SEO 标题
+      type: text
+      data-type: string
+      default: '产品中心 - 六岳微电子 | RISC-V芯片, 工业控制芯片, DSC处理器解决方案'
+      description: 浏览器标签页标题，与源站 definePageMeta 一致；留空则用「产品中心 - 公司名」
+    products_desc:
+      name: products_desc
+      label: 产品中心副标题
+      type: text
+      data-type: string
+      default: '专业的半导体解决方案提供商'
+      description: 页头大图下方的副标题文案
+    products_bg:
+      name: products_bg
+      label: 产品中心背景图
+      type: attachment
+      data-type: string
+      default: 'https://cdn.newaigou.com/sysummit/assets/image/product-bg.jpg'
+      description: 页头大图，对应源站 product-bg.jpg
+    product_series_slugs:
+      name: product_series_slugs
+      label: 产品系列 slug
+      type: text
+      data-type: string
+      default: 'dsc,soc'
+      description: 产品详情页顶部导航显示的系列，多个用英文逗号分隔（如 dsc,soc）；留空则显示全部分类
+    product_highlight_title:
+      name: product_highlight_title
+      label: 「产品亮点」标题
+      type: text
+      data-type: string
+      default: '产品亮点'
+    product_download_title:
+      name: product_download_title
+      label: 「资料下载」标题
+      type: text
+      data-type: string
+      default: '资料下载'
+news:
+  label: 新闻中心
+  items:
+    news_bg:
+      name: news_bg
+      label: Banner 背景图
+      type: attachment
+      data-type: string
+      default: 'https://cdn.newaigou.com/sysummit/assets/image/news-bg.jpg'
+      description: 与源站 news 页一致
+    news_title:
+      name: news_title
+      label: 标题
+      type: text
+      data-type: string
+      default: '新闻中心'
+    news_desc:
+      name: news_desc
+      label: 副标题
+      type: text
+      data-type: string
+      default: '了解六岳微电子最新动态与行业资讯'
+    news_seo_title:
+      name: news_seo_title
+      label: SEO 标题
+      type: text
+      data-type: string
+      default: '新闻中心 - 六岳微电子 | 公司最新动态与新闻资讯'
+pageseo:
+  label: 页面 SEO 标题
+  items:
+    seo_app_industrial:
+      name: seo_app_industrial
+      label: 工业应用
+      type: text
+      data-type: string
+      default: '工业应用 - 六岳微电子 | 工业自动化芯片解决方案及设计服务'
+      description: 与源站 definePageMeta 一致；留空则用「页面标题 - 公司名」
+    seo_app_energy:
+      name: seo_app_energy
+      label: 电力能源
+      type: text
+      data-type: string
+      default: '电力能源 - 六岳微电子 | 电子电力系统芯片解决方案及设计服务'
+    seo_app_automotive:
+      name: seo_app_automotive
+      label: 汽车电子
+      type: text
+      data-type: string
+      default: '汽车电子 - 六岳微电子 | 汽车电子领域芯片解决方案及设计服务'
+    seo_app_consumer:
+      name: seo_app_consumer
+      label: 消费电子
+      type: text
+      data-type: string
+      default: '消费电子 - 六岳微电子 | 消费电子领域芯片解决方案及设计服务'
+    seo_company:
+      name: seo_company
+      label: 公司简介
+      type: text
+      data-type: string
+      default: '公司简介 - 六岳微电子 | 专注于工业控制领域的芯片设计公司，提供基于RISC-V架构的完全自主可控芯片以及编译器和IDE在内的全栈软件生态解决方案'
+    seo_documents:
+      name: seo_documents
+      label: 文档中心
+      type: text
+      data-type: string
+      default: '文档中心 - 六岳微电子 | 技术文档搜索与产品资料下载'
+    seo_faq:
+      name: seo_faq
+      label: 常见问题
+      type: text
+      data-type: string
+      default: '常见问题 - 六岳微电子 | 问题搜索与分类解答'
+    seo_services:
+      name: seo_services
+      label: 设计服务
+      type: text
+      data-type: string
+      default: '设计服务 - 六岳微电子 | 芯片研发至生态软件一站式定制服务'
+    seo_contact:
+      name: seo_contact
+      label: 联系我们
+      type: text
+      data-type: string
+      default: '联系我们 - 六岳微电子 | 地址电话邮箱及技术支持服务'
+footer:
+  label: 页脚设置
+  items:
+    footer_slogan:
+      name: footer_slogan
+      label: 页脚标语
+      type: textarea
+      data-type: string
+      default: '专注半导体科技创新，引领行业发展'
+    footer_menu_team:
+      name: footer_menu_team
+      label: 页脚导航菜单分组
+      type: text
+      data-type: string
+      default: 'footer'
+      description: 在「外观 - 菜单」中新建该分组，即可作为页脚导航显示
+    statistics:
+      name: statistics
+      label: 显示统计脚本
+      type: radio
+      data-type: bool
+      default: true
+      options:
+        - value: true
+          label: 开启
+        - value: false
+          label: 关闭

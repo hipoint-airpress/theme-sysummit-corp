@@ -1,0 +1,66 @@
+{% set menus = listMenuAsTree() %}
+<header class="ap-header" id="apHeader">
+    <!-- <div class="ap-header__top">
+        <div class="ap-container ap-header__top-inner">
+            <div class="ap-header__contacts" style="margin-left:auto">
+                <a href="{{ settings.news_url|default:'/archives' }}">新闻</a>
+                <a href="{{ settings.login_url|default:'/admin' }}">登录</a>
+            </div>
+        </div>
+    </div> -->
+    <div class="ap-header__main">
+        <div class="ap-container ap-header__main-inner">
+            <a class="ap-logo" href="/" title="{{ blog_title }}">
+                {% if settings.logo %}
+                    <img src="{{ settings.logo }}" alt="{{ blog_title }}"/>
+                {% else %}
+                    <span>{{ settings.logo_text|default:blog_title }}</span>
+                {% endif %}
+            </a>
+            <nav class="ap-nav">
+                {% for menu in menus %}
+                    <div class="ap-nav__item {% if menu.Children %}has-child{% endif %}">
+                        <a href="{{ menu.URL }}" {% if menu.Target %}target="{{ menu.Target }}"{% endif %}>{{ menu.Name }}</a>
+                        {% if menu.Children %}
+                            <div class="ap-nav__dropdown">
+                                {% for child in menu.Children %}
+                                    <a href="{{ child.URL }}" {% if child.Target %}target="{{ child.Target }}"{% endif %}>{{ child.Name }}</a>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </nav>
+            <div class="ap-header__actions">
+                <a class="ap-btn ap-btn--primary" href="{{ settings.contact_url|default:'/s/contact' }}">联系我们</a>
+                <button class="ap-header__toggle" id="apNavToggle" type="button" aria-label="菜单"><span></span></button>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="ap-drawer" id="apDrawer">
+    <div class="ap-drawer__mask" id="apDrawerMask"></div>
+    <div class="ap-drawer__panel">
+        <div class="ap-drawer__close">
+            <button type="button" id="apDrawerClose" aria-label="关闭">&times;</button>
+        </div>
+        {% for menu in menus %}
+            <div class="ap-drawer__item">
+                {% if menu.Children %}
+                    <a href="javascript:void(0)" class="ap-drawer__expand">{{ menu.Name }}</a>
+                    <div class="ap-drawer__sub">
+                        {% for child in menu.Children %}
+                            <a href="{{ child.URL }}" {% if child.Target %}target="{{ child.Target }}"{% endif %}>{{ child.Name }}</a>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <a href="{{ menu.URL }}" {% if menu.Target %}target="{{ menu.Target }}"{% endif %}>{{ menu.Name }}</a>
+                {% endif %}
+            </div>
+        {% endfor %}
+        <div style="margin-top:24px">
+            <a class="ap-btn ap-btn--primary" style="width:100%" href="{{ settings.contact_url|default:'/s/contact' }}">联系我们</a>
+        </div>
+    </div>
+</div>

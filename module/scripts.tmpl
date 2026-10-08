@@ -1,0 +1,36 @@
+<div class="ap-contact-trigger" id="apContactTrigger" aria-label="联系方式">
+    {% include "www/module/icon" with name="phone" %}
+</div>
+<div class="ap-contact-popup" id="apContactPopup">
+    <div class="ap-contact-popup__head">
+        <button type="button" id="apContactClose" aria-label="关闭">&times;</button>
+    </div>
+    <div class="ap-contact-popup__body">
+        {% if settings.contact_phone %}
+            <div class="ap-contact-item">
+                <div class="ap-contact-label">联系电话</div>
+                <a class="ap-contact-value" href="tel:{{ settings.contact_tel|default:settings.contact_phone }}">{{ settings.contact_phone }}</a>
+            </div>
+        {% endif %}
+        {% if settings.contact_email or settings.contact_email2 %}
+            <div class="ap-contact-item">
+                <div class="ap-contact-label">联系邮箱</div>
+                {% if settings.contact_email %}
+                    <span class="ap-contact-value" data-copy="{{ settings.contact_email }}">{{ settings.contact_email }}</span>
+                {% endif %}
+                {% if settings.contact_email2 %}
+                    <span class="ap-contact-value" data-copy="{{ settings.contact_email2 }}">{{ settings.contact_email2 }}</span>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="ap-float">
+    <button class="ap-float__btn" id="apBackTop" type="button" aria-label="回到顶部">
+        {% include "www/module/icon" with name="arrow-up" %}
+    </button>
+</div>
+{% if settings.statistics|default:"true" != "false" %}
+    {% include "common/macro/statistics" %}
+{% endif %}

@@ -1,0 +1,18 @@
+{# 设计服务页：Banner + 图文正文 + 服务卡片 #}
+{% include "www/module/sheet-head" %}
+
+<div class="ap-page">
+    <div class="ap-container">
+        {% if post.Content %}
+            <div class="ap-content" id="apIntro">{{ post.Content|safe }}</div>
+        {% endif %}
+
+        {% include "www/module/cards-block" %}
+        {% include "www/module/faq-block" %}
+    </div>
+</div>
+
+{% include "www/module/footer" %}
+{% include "www/module/scripts" %}
+</body>
+</html>

@@ -1,0 +1,28 @@
+{# 文章列表：依赖上下文中的 posts（dto.Page） #}
+{% if posts.Content %}
+    <div class="ap-news">
+        {% for post in posts.Content %}
+            <a class="ap-news__item" href="{{ post.FullPath }}" title="{{ post.Title }}">
+                <div class="ap-news__date">
+                    <span class="ap-news__day">{{ unix_milli_time_format("02", post.CreateTime) }}</span>
+                    <span class="ap-news__month">{{ unix_milli_time_format("2006-01", post.CreateTime) }}</span>
+                </div>
+                <div>
+                    <h3 class="ap-news__title">{{ post.Title }}</h3>
+                    {% if post.Summary %}
+                        <div class="ap-news__meta">{{ post.Summary|truncatechars:60 }}</div>
+                    {% endif %}
+                    <div class="ap-news__meta">
+                        {% if post.Categories %}
+                            {% for category in post.Categories %}
+                                {{ category.Name }}{% if not loop.Last %} · {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="ap-empty">暂无内容</div>
+{% endif %}

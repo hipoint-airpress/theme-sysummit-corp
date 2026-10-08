@@ -1,0 +1,62 @@
+{# 资料下载表格：files = "名称::格式::大小::更新时间::链接::分类"（多条用 | 分隔），file_series = "系列1|系列2" 用于筛选，依赖 www-blocks.js 的 initFileFilter。简写：只填链接，或「文件名::链接」——文件名缺省取链接末段，格式取扩展名 #}
+{% for meta in metas %}
+    {% if meta.Key == "files" and meta.Value %}
+        <div class="ap-block">
+            {% for m in metas %}
+                {% if m.Key == "file_series" and m.Value %}
+                    <div class="ap-chips" id="apFileFilter">
+                        <button class="ap-chip is-active" type="button" data-series="">全部</button>
+                        {% for s in m.Value|split:"|" %}
+                            <button class="ap-chip" type="button" data-series="{{ s }}">{{ s }}</button>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endfor %}
+            <div class="ap-files" id="apFileList">
+                <div class="ap-files__head">
+                    <span>文档名称</span><span>格式</span><span>大小</span><span>更新时间</span><span></span>
+                </div>
+                {% for file in meta.Value|split:"|" %}
+                    {% set f = file|split:"::" %}
+                    {% if f|length >= 5 %}
+                        <div class="ap-files__row" data-series="{{ f.5 }}">
+                            <span class="ap-files__name">{% include "www/module/icon" with name="doc" %}{{ f.0 }}</span>
+                            <span>{{ f.1 }}</span>
+                            <span>{{ f.2 }}</span>
+                            <span>{{ f.3 }}</span>
+                            <span>
+                                <a class="ap-btn ap-btn--sm" href="{% if "http" in f.4 %}{{ f.4 }}{% elif f.4|slice:"0:1" == "/" %}{{ blog_url }}{{ f.4 }}{% else %}{{ blog_url }}/{{ f.4 }}{% endif %}" target="_blank" rel="noopener" download>
+                                    {% include "www/module/icon" with name="download" %}下载
+                                </a>
+                            </span>
+                        </div>
+                    {% elif f|length == 2 %}
+                        <div class="ap-files__row" data-series="">
+                            <span class="ap-files__name">{% include "www/module/icon" with name="doc" %}{{ f.0 }}</span>
+                            <span>{{ f.1|split:"."|last|upper }}</span>
+                            <span></span>
+                            <span></span>
+                            <span>
+                                <a class="ap-btn ap-btn--sm" href="{% if "http" in f.1 %}{{ f.1 }}{% elif f.1|slice:"0:1" == "/" %}{{ blog_url }}{{ f.1 }}{% else %}{{ blog_url }}/{{ f.1 }}{% endif %}" target="_blank" rel="noopener" download>
+                                    {% include "www/module/icon" with name="download" %}下载
+                                </a>
+                            </span>
+                        </div>
+                    {% else %}
+                        <div class="ap-files__row" data-series="">
+                            <span class="ap-files__name">{% include "www/module/icon" with name="doc" %}{{ f.0|split:"/"|last }}</span>
+                            <span>{{ f.0|split:"."|last|upper }}</span>
+                            <span></span>
+                            <span></span>
+                            <span>
+                                <a class="ap-btn ap-btn--sm" href="{% if "http" in f.0 %}{{ f.0 }}{% elif f.0|slice:"0:1" == "/" %}{{ blog_url }}{{ f.0 }}{% else %}{{ blog_url }}/{{ f.0 }}{% endif %}" target="_blank" rel="noopener" download>
+                                    {% include "www/module/icon" with name="download" %}下载
+                                </a>
+                            </span>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+{% endfor %}

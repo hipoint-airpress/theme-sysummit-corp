@@ -1,0 +1,17 @@
+{# 联系我们页：Banner + 联系信息卡 + 留言表单 + 服务说明。适用于 show_contact / show_contact_form 的页面 #}
+{% include "www/module/sheet-head" %}
+
+<div class="ap-page">
+    <div class="ap-container">
+        {% if post.Content %}
+            <div class="ap-content" id="apIntro">{{ post.Content|safe }}</div>
+        {% endif %}
+
+        {% include "www/module/contact-block" %}
+    </div>
+</div>
+
+{% include "www/module/footer" %}
+{% include "www/module/scripts" %}
+</body>
+</html>

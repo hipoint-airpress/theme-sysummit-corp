@@ -1,0 +1,34 @@
+{# 卡片区块：cards = "标题::描述::图片或图标名::链接"，cards_grid=4 时四列，cards_title 为可选居中标题，cards_image 为可选底部大图 #}
+{% for meta in metas %}
+    {% if meta.Key == "cards" and meta.Value %}
+        <div class="ap-block" id="apCards">
+            {% for t in metas %}
+                {% if t.Key == "cards_title" and t.Value %}
+                    <h2 class="ap-block__title ap-block__title--center">{{ t.Value }}</h2>
+                {% endif %}
+            {% endfor %}
+            <div class="ap-grid ap-grid--3{% for m in metas %}{% if m.Key == "cards_grid" and m.Value == "4" %} ap-grid--4{% endif %}{% endfor %}">
+                {% for card in meta.Value|split:"|" %}
+                    {% set c = card|split:"::" %}
+                    <div class="ap-card ap-card--static">
+                        {% if c.2 and "http" in c.2 %}
+                            <div class="ap-card__thumb"><img src="{{ c.2 }}" alt="{{ c.0 }}" loading="lazy"/></div>
+                        {% elif c.2 %}
+                            <div class="ap-card__icon">{% include "www/module/icon" with name=c.2 %}</div>
+                        {% endif %}
+                        <div class="ap-card__body">
+                            <h3 class="ap-card__title">{{ c.0 }}</h3>
+                            {% if c.1 %}<p class="ap-card__desc">{{ c.1 }}</p>{% endif %}
+                            {% if c.3 %}<a class="ap-card__more" href="{{ c.3 }}">了解更多</a>{% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            {% for m in metas %}
+                {% if m.Key == "cards_image" and m.Value %}
+                    <div class="ap-block__image"><img style="width: 100%;" src="{{ m.Value }}" alt="" loading="lazy"/></div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endfor %}

@@ -1,0 +1,15 @@
+{# 产品详情模板。在后台文章编辑页「自定义模板」选择 product 即生效（对应 post.template = product），适合不想依赖分类判定的产品文章 #}
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    {% include "www/module/head" with title=printf("%s - %s", post.Title, settings.company_name|default:blog_title) %}
+</head>
+<body>
+{% include "www/module/header" %}
+
+{% include "www/module/product-detail" %}
+
+{% include "www/module/footer" %}
+{% include "www/module/scripts" %}
+</body>
+</html>

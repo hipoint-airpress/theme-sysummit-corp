@@ -1,0 +1,14 @@
+{# 图标特性卡片：title / desc / icon #}
+{% if title %}
+    <div class="ap-reveal">
+        <div class="ap-feature">
+            <div class="ap-feature__icon">
+                {% include "www/module/icon" with name=icon|default:"chip" %}
+            </div>
+            <h3 class="ap-feature__title">{{ title }}</h3>
+            {% if desc %}
+                <p class="ap-feature__desc">{{ desc }}</p>
+            {% endif %}
+        </div>
+    </div>
+{% endif %}

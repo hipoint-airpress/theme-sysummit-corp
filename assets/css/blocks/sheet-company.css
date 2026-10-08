@@ -1,0 +1,134 @@
+/* ==========================================================================
+   blocks/sheet-company.css — 公司简介页面样式
+   服务页面：sheet_company.tmpl（页面模板 company）；timeline 也被 sheet_page 复用
+   关联模板：module/timeline-block、module/anchors-nav（锚点条样式在 _base.css）
+   内容：企业简介图文（ap-company-intro）、发展历程时间线（ap-timeline）
+   ========================================================================== */
+
+/* ---------- 企业简介图文（源站 .company-intro） ---------- */
+.ap-company-intro {
+    display: flex;
+    gap: 60px;
+    align-items: center;
+}
+
+.ap-company-intro__text {
+    flex: 1;
+    min-width: 0;
+}
+
+.ap-company-intro__text ul {
+    margin: 0;
+    padding-left: 20px;
+    list-style: disc;
+}
+
+.ap-company-intro__text li {
+    margin-top: 28px;
+}
+
+.ap-company-intro__image {
+    flex: 1;
+    min-width: 0;
+}
+
+.ap-company-intro__image img {
+    width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, .1);
+}
+
+/* ---------- 发展历程时间线（源站 el-timeline） ---------- */
+.ap-timeline {
+    position: relative;
+    margin: 0;
+    padding: 8px 0 8px 20px;
+    list-style: none;
+}
+
+.ap-timeline::before {
+    content: "";
+    position: absolute;
+    left: 6px;
+    top: 14px;
+    bottom: 14px;
+    width: 2px;
+    background: var(--ap-border);
+}
+
+.ap-timeline__item {
+    position: relative;
+    padding: 0 0 32px 32px;
+}
+
+.ap-timeline__item:last-child {
+    padding-bottom: 0;
+}
+
+.ap-timeline__item::before {
+    content: "";
+    position: absolute;
+    left: -20px;
+    top: 6px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--ap-primary);
+    box-shadow: 0 0 0 4px var(--ap-primary-tint-12);
+}
+
+.ap-timeline__time {
+    font-size: var(--ds-type-headline-sm-size);
+    line-height: var(--ds-type-headline-sm-lh);
+    font-weight: 700;
+    color: var(--ap-primary);
+}
+
+.ap-timeline__card {
+    margin-top: 10px;
+    padding: 20px;
+    background: var(--ap-bg-gray);
+    border: 1px solid var(--ap-border); border-radius: var(--ap-radius-lg);
+}
+
+.ap-timeline__title {
+    margin: 0 0 10px;
+    font-size: var(--ds-type-headline-sm-size);
+    line-height: var(--ds-type-headline-sm-lh);
+    color: var(--ap-text);
+}
+
+.ap-timeline__desc {
+    margin: 0;
+    font-size: var(--ds-type-body-lg-size);
+    color: var(--ap-text-weak);
+    line-height: 1.6;
+}
+
+.ap-timeline__desc + .ap-timeline__desc {
+    margin-top: 8px;
+}
+
+/* ---------- 响应式 ---------- */
+@media (max-width: 768px) {
+    .ap-timeline__item {
+        padding: 0 0 24px 24px;
+    }
+
+    .ap-timeline__title {
+        font-size: var(--ds-type-title-md-size);
+    }
+
+    .ap-timeline__desc {
+        font-size: var(--ds-type-body-md-size);
+    }
+
+    .ap-company-intro {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .ap-company-intro__text li {
+        margin-top: 16px;
+    }
+}

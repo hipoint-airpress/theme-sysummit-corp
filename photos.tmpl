@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    {% include "www/module/head" with title=printf("%s - %s", "图库", blog_title) %}
+</head>
+<body>
+{% include "www/module/header" %}
+{% include "www/module/breadcrumb" with current="图库" %}
+
+<div class="ap-page">
+    <div class="ap-container">
+        <h1 class="ap-page__title">图库</h1>
+        <div class="ap-page__meta"><span>共 {{ photos.Total }} 张</span></div>
+        <div style="margin-top:24px">
+            {% if photos.Content %}
+                <div class="ap-photos">
+                    {% for photo in photos.Content %}
+                        <a class="ap-photo" href="{{ photo.URL }}" target="_blank" rel="noopener">
+                            <img src="{{ photo.Thumbnail }}" alt="{{ photo.Name }}"/>
+                            <div class="ap-photo__name">{{ photo.Name }}</div>
+                        </a>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="ap-empty">暂无图片</div>
+            {% endif %}
+        </div>
+        {% if photos.Pages > 1 %}
+            {% set pagination = photosPagination(photos.PageNum, photos.Pages, 3) %}
+            {% set total = photos.Total %}
+            {% include "www/module/pagination" %}
+        {% endif %}
+    </div>
+</div>
+
+{% include "www/module/footer" %}
+{% include "www/module/scripts" %}
+</body>
+</html>

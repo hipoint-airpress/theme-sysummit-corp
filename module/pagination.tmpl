@@ -1,0 +1,16 @@
+{# 分页：调用前需在页面中 {% set pagination = xxxPagination(...) %} #}
+{% if pagination %}
+    <div class="ap-pagination">
+        {% if pagination.HasPrev %}
+            <a class="ap-pagination__item" href="{{ pagination.PrevPageFullPath }}" title="上一页">上一页</a>
+        {% endif %}
+        {% for page in pagination.RainbowPages %}
+            <a class="ap-pagination__item {% if page.IsCurrent %}is-current{% endif %}"
+               href="{{ page.FullPath }}">{{ page.Page }}</a>
+        {% endfor %}
+        {% if pagination.HasNext %}
+            <a class="ap-pagination__item" href="{{ pagination.NextPageFullPath }}" title="下一页">下一页</a>
+        {% endif %}
+        <span class="ap-pagination__info">共 {{ total|default:0 }} 条</span>
+    </div>
+{% endif %}

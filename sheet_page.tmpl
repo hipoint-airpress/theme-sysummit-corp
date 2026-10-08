@@ -1,0 +1,24 @@
+{# 通用页面剧本：按需组合所有区块（各区块由页面 metas 决定是否渲染），适合形态不固定的新页面；形态固定的页面建议用对应的 sheet_xxx 专用模板 #}
+{% include "www/module/sheet-head" %}
+{% include "www/module/anchors-nav" %}
+{% include "www/module/sections-nav" %}
+
+<div class="ap-page">
+    <div class="ap-container">
+        {% if post.Content %}
+            <div class="ap-content" id="apIntro">{{ post.Content|safe }}</div>
+        {% endif %}
+
+        {% include "www/module/contact-block" %}
+        {% include "www/module/sections-block" %}
+        {% include "www/module/timeline-block" %}
+        {% include "www/module/cards-block" %}
+        {% include "www/module/faq-block" %}
+        {% include "www/module/files-block" %}
+    </div>
+</div>
+
+{% include "www/module/footer" %}
+{% include "www/module/scripts" %}
+</body>
+</html>

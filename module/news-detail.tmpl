@@ -1,0 +1,55 @@
+{# 新闻详情主体（源站 news/[id].vue）：面包屑 + 标题/信息 + 封面 + 正文 + 分享 + 上下篇 + 返回列表 #}
+{% include "www/module/breadcrumb" with current=post.Title %}
+
+<article class="ap-page ap-detail">
+    <div class="ap-container">
+        <div class="ap-block ap-news-detail">
+            <header class="ap-news-detail__header">
+                {% if post.Topped %}<span class="ap-news-sticky ap-news-sticky--lg">置顶</span>{% endif %}
+                <h1 class="ap-page__title">{{ post.Title }}</h1>
+                <div class="ap-post__meta">
+                    <span>{{ unix_milli_time_format("2006-01-02", post.CreateTime) }}</span>
+                    {% for category in post.Categories %}
+                        <a href="{{ category.FullPath }}" title="{{ category.Name }}">{{ category.Name }}</a>
+                    {% endfor %}
+                    {% for meta in metas %}
+                        {% if meta.Key == "news_author" and meta.Value %}<span>{{ meta.Value }}</span>{% endif %}
+                    {% endfor %}
+                    {% for meta in metas %}
+                        {% if meta.Key == "news_source" and meta.Value %}<span>来源：{{ meta.Value }}</span>{% endif %}
+                    {% endfor %}
+                    <span>阅读 {{ post.Visits }} 次</span>
+                </div>
+            </header>
+            {% if post.Content %}<div class="ap-content">{{ post.Content|safe }}</div>{% endif %}
+
+            {# 分享（源站 news-share）：复制链接 + 微博 #}
+            <div class="ap-news-share" id="apNewsShare">
+                <div class="ap-news-share__title">分享到：</div>
+                <div class="ap-news-share__buttons">
+                    <button type="button" class="ap-news-share__btn" data-share="copy" title="复制链接">链接</button>
+                    <a class="ap-news-share__btn" data-share="weibo" href="#" target="_blank" rel="noopener" title="分享到微博">微博</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="ap-container">
+        <div class="ap-pagination" style="justify-content:space-between">
+            <div>
+                {% if prevPost %}
+                    <a class="ap-pagination__item" href="{{ prevPost.FullPath }}" title="{{ prevPost.Title }}">上一篇：{{ prevPost.Title|truncatechars:20 }}</a>
+                {% endif %}
+            </div>
+            <div>
+                {% if nextPost %}
+                    <a class="ap-pagination__item" href="{{ nextPost.FullPath }}" title="{{ nextPost.Title }}">下一篇：{{ nextPost.Title|truncatechars:20 }}</a>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="ap-news-back">
+            <a class="ap-btn" href="/archives">← 返回新闻列表</a>
+        </div>
+    </div>
+</article>

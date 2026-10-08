@@ -1,0 +1,104 @@
+{# 产品中心（自定义页面版）：Banner 与标题取自主题设置 products_*；产品系列来自「产品」(slug: product) 分类的子分类。页面正文填了会显示在系列列表下方 #}
+{% set productCategory = getCategoryBySlug("product") %}
+{% set categoryTree = listCategoryAsTree() %}
+{% set productsTitle = settings.products_title|default:"产品中心" %}
+{% set seoTitle = settings.products_seo_title|default:printf("%s - %s", productsTitle, settings.company_name|default:blog_title) %}
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    {% include "www/module/head" with title=seoTitle %}
+</head>
+<body>
+{% include "www/module/header" %}
+
+<div class="ap-page-hero" {% if settings.products_bg %}style="background-image: url('{{ settings.products_bg }}')"{% endif %}>
+    <div class="ap-container">
+        <h1 class="ap-page-hero__title">{{ productsTitle }}</h1>
+        {% if settings.products_desc %}
+            <p class="ap-page-hero__desc">{{ settings.products_desc }}</p>
+        {% endif %}
+    </div>
+</div>
+
+{# 移动端系列切换条（源站 .anchor-nav，PC 隐藏）：点击只显示所选系列 #}
+<nav class="ap-anchor-nav" id="apProductNav">
+    <div class="ap-container">
+        <ul class="ap-anchor-nav__list">
+            {% if productCategory %}
+                {% for node in categoryTree %}
+                    {% if node.Slug == "product" %}
+                        {% for category in node.Children %}
+                            <li><a href="#series-{{ category.Slug }}" data-series="{{ category.Slug }}">{{ category.Name }}</a></li>
+                        {% endfor %}
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        </ul>
+    </div>
+</nav>
+
+<div class="ap-page">
+    <div class="ap-container">
+        {% if post.Content %}
+            <div class="ap-content">{{ post.Content|safe }}</div>
+        {% endif %}
+
+        {% if not productCategory %}
+            <div class="ap-empty">暂无产品系列，请先在后台「分类」中创建 slug 为 product 的「产品」分类</div>
+        {% else %}
+            {% for node in categoryTree %}
+                {% if node.Slug == "product" %}
+                    {% if node.Children %}
+                        <div class="ap-products">
+                            {# 侧栏系列树（源站 .filter-sidebar）：点击切换右侧显示的系列 #}
+                            <aside class="ap-products__sidebar" id="apSeriesSidebar">
+                                <h2 class="ap-products__side-title">产品系列</h2>
+                                <ul class="ap-products__series">
+                                    {% for category in node.Children %}
+                                        <li><a href="#series-{{ category.Slug }}" data-series="{{ category.Slug }}">{{ category.Name }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </aside>
+
+                            <div class="ap-products__main" id="apProductMain">
+                                {% for category in node.Children %}
+                                    <section class="ap-block" id="series-{{ category.Slug }}" data-series="{{ category.Slug }}">
+                                        {% set products = listPostByCategoryID(category.ID) %}
+                                        {% if products %}
+                                            <div class="ap-grid ap-grid--3">
+                                                {% for product in products %}
+                                                    <a class="ap-card" href="{{ product.FullPath }}" title="{{ product.Title }}">
+                                                        <div class="ap-card__thumb">
+                                                            {% if product.Thumbnail %}
+                                                                <img src="{{ product.Thumbnail }}" alt="{{ product.Title }}" loading="lazy"/>
+                                                            {% endif %}
+                                                        </div>
+                                                        <div class="ap-card__body">
+                                                            <h3 class="ap-card__title">{{ product.Title }}</h3>
+                                                            {% if product.Summary %}
+                                                                <p class="ap-card__desc">{{ product.Summary|striptags|truncatechars:70 }}</p>
+                                                            {% endif %}
+                                                        </div>
+                                                    </a>
+                                                {% endfor %}
+                                            </div>
+                                        {% else %}
+                                            <div class="ap-empty">该系列暂无产品，可在后台把产品文章归类到本系列</div>
+                                        {% endif %}
+                                    </section>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="ap-empty">「产品」分类下还没有子系列，请在后台把 DSC / SOC 等系列挂到它下面</div>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    </div>
+</div>
+
+{% include "www/module/footer" %}
+{% include "www/module/scripts" %}
+</body>
+</html>

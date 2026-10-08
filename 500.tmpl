@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    {% include "www/module/head" with title=printf("%s - %s", "服务异常", blog_title) %}
+</head>
+<body>
+{% include "www/module/header" %}
+
+<div class="ap-page">
+    <div class="ap-container">
+        <div class="ap-empty">
+            <h1 class="ap-page__title" style="font-size:64px">500</h1>
+            <p>服务器开小差了，请稍后再试。</p>
+            <div style="margin-top:24px">
+                <a class="ap-btn ap-btn--primary" href="/">返回首页</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include "www/module/footer" %}
+{% include "www/module/scripts" %}
+</body>
+</html>

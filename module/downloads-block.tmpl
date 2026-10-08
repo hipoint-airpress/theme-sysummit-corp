@@ -1,0 +1,35 @@
+{# 产品资料下载表：product_downloads 存 JSON 数组 [{"name":"名称","format":"格式","size":"大小","date":"修改日期","url":"链接"}]。链接支持三种写法：绝对地址原样、以 / 开头或相对路径自动补站点域名。由 post_product 使用，渲染在页面最下方 #}
+{% for meta in metas %}
+    {% if meta.Key == "product_downloads" and meta.Value %}
+        {% set files = from_json(meta.Value) %}
+        {% if files %}
+            <div class="ap-container">
+                <div class="ap-block">
+                    <h2 class="ap-block__title">{{ settings.product_download_title|default:"资料下载" }}</h2>
+                    <div class="ap-files">
+                        <div class="ap-files__head">
+                            <span>资料名称</span><span>文件格式</span><span>文件大小</span><span>修改日期</span><span>操作</span>
+                        </div>
+                        {% for file in files %}
+                            {% if file.url %}
+                                <div class="ap-files__row">
+                                    <span class="ap-files__name">
+                                        {% include "www/module/icon" with name="doc" %}{{ file.name }}
+                                    </span>
+                                    <span>{{ file.format }}</span>
+                                    <span>{{ file.size }}</span>
+                                    <span>{{ file.date }}</span>
+                                    <span>
+                                        <a class="ap-btn ap-btn--sm" href="{% if "http" in file.url %}{{ file.url }}{% elif file.url|slice:"0:1" == "/" %}{{ blog_url }}{{ file.url }}{% else %}{{ blog_url }}/{{ file.url }}{% endif %}" target="_blank" rel="noopener" download>
+                                            {% include "www/module/icon" with name="download" %}下载
+                                        </a>
+                                    </span>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    {% endif %}
+{% endfor %}

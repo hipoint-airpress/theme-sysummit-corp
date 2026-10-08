@@ -1,0 +1,79 @@
+/* ==========================================================================
+   blocks/sheet-product.css — 产品中心页面样式
+   服务页面：sheet_product.tmpl（页面模板 product，/s/products）
+   内容：主体（系列树侧栏 + 产品网格，源站 .filter-sidebar / .products-grid）
+   注意：顶部 Banner（ap-page-hero）与移动端锚点条（ap-anchor-nav）在 _base.css
+   ========================================================================== */
+
+/* 主体：系列树 + 产品网格（源站 .filter-sidebar / .products-grid） */
+.ap-products {
+    display: flex;
+    gap: 20px;
+}
+
+.ap-products__sidebar {
+    position: sticky;
+    top: 96px;
+    align-self: flex-start;
+    width: 280px;
+    flex-shrink: 0;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    border: 1px solid var(--ap-border);
+}
+
+.ap-products__side-title {
+    margin: 0 0 10px;
+    padding-bottom: 8px;
+    font-size: var(--ds-type-headline-sm-size);
+    line-height: var(--ds-type-headline-sm-lh);
+    color: var(--ap-text);
+    border-bottom: 1px solid var(--ap-border);
+}
+
+.ap-products__series li + li {
+    margin-top: 10px;
+}
+
+.ap-products__series a {
+    font-size: var(--ds-type-headline-sm-size);
+    color: var(--ap-text-weak);
+    transition: color .3s ease;
+}
+
+.ap-products__series a:hover,
+.ap-products__series a.is-active {
+    color: var(--ap-primary);
+}
+
+.ap-products__main {
+    flex: 1;
+    min-width: 0;
+}
+
+.ap-products__main .ap-block:first-child {
+    margin-top: 0;
+}
+
+/* ---------- 响应式 ---------- */
+@media (max-width: 1200px) {
+    .ap-products__main .ap-grid--3 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .ap-products {
+        display: block;
+    }
+
+    .ap-products__sidebar {
+        display: none;
+    }
+
+    .ap-products__main .ap-grid--3 {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+}

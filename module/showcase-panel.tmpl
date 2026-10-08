@@ -1,0 +1,13 @@
+{# 首页「应用领域」大图面板：{% include "www/module/showcase-panel" with index=1 title="..." desc="..." image="..." link="..." %} #}
+<div class="ap-showcase__panel {% if index == 1 %}is-active{% endif %}" data-index="{{ index }}">
+    <div class="ap-showcase__image">
+        {% if image %}<img src="{{ image }}" alt="{{ title }}" loading="lazy"/>{% endif %}
+    </div>
+    <div class="ap-showcase__text">
+        <h3>{{ title }}</h3>
+        {% if desc %}<p class="ap-showcase__desc">{{ desc|truncatechars:160 }}</p>{% endif %}
+        {% if link %}
+            <a class="ap-btn ap-btn--glass" href="{{ link }}">了解更多</a>
+        {% endif %}
+    </div>
+</div>

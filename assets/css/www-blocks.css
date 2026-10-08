@@ -1,0 +1,39 @@
+/* ==========================================================================
+   www-blocks.css — 官网（六岳微电子）板块样式【入口文件】
+   在 main.css 之后加载；实际样式按模块拆分在 blocks/ 目录，此处聚合引入。
+
+   模块清单（按页面/组件划分）：
+     blocks/_tokens.css           设计令牌（DESIGN.md 色彩/字阶/圆角/间距/阴影，--ds-* 原始层）
+     blocks/_base.css             全站通用（区块标题/chips/按钮变体/page-hero/锚点条/资料下载表）
+     blocks/content-markdown.css  Markdown 正文增强（.ap-content--md 容器 + ap-md-section）
+     blocks/cards.css             通用卡片区块（cards-block：company/services/page 复用）
+     blocks/index.css             首页（Banner / 领域切换展示 / 增值服务）
+     blocks/post-product.css      产品文章详情（系列导航 / hero / 特性 / 亮点）
+     blocks/post-news.css         新闻（列表 / 轮播 / 侧栏 / 详情，多页面复用）
+     blocks/sheet-company.css     公司简介（图文 / 时间线）
+     blocks/sheet-faq.css         常见问题（faq / services / page 复用）
+     blocks/sheet-contact.css     联系我们（信息卡 / 表单 / toast）
+     blocks/sheet-product.css     产品中心（系列树 + 产品网格）
+     blocks/sheet-application.css 应用领域（锚点导航 / 图文交替区块）
+
+   维护约定：
+   - 新增板块样式请放进对应模块；新页面新建 blocks/<页面>.css 并在下方追加 @import
+   - 模块内部自带各自的响应式（断点统一 1200 / 1024 / 768）
+   - 各模块选择器集合互不重叠，@import 顺序无级联依赖；仅 _base.css 需最先加载
+   - 注意：@import 的子文件 URL 不带 ?version= 缓存参数，改完子模块后浏览器
+     可能仍用旧缓存，开发时强刷（Ctrl+F5）；发布建议整体更新 theme.Version 之外
+     再确认子文件缓存（或在子文件引用处按需调整加载方式）
+   ========================================================================== */
+
+@import "blocks/_tokens.css";
+@import "blocks/_base.css";
+@import "blocks/content-markdown.css";
+@import "blocks/cards.css";
+@import "blocks/index.css";
+@import "blocks/post-product.css";
+@import "blocks/post-news.css";
+@import "blocks/sheet-company.css";
+@import "blocks/sheet-faq.css";
+@import "blocks/sheet-contact.css";
+@import "blocks/sheet-product.css";
+@import "blocks/sheet-application.css";

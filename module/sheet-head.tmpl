@@ -1,0 +1,30 @@
+{# 自定义页面头部：SEO 标题（按 slug 取对应设置项）+ head + header + 页面 Banner（hero_* 由页面 metas 提供） #}
+{% set pageTitle = printf("%s - %s", post.Title, settings.company_name|default:blog_title) %}
+{% if post.Slug == "app-industrial" %}{% set pageTitle = settings.seo_app_industrial|default:pageTitle %}
+{% elif post.Slug == "app-energy" %}{% set pageTitle = settings.seo_app_energy|default:pageTitle %}
+{% elif post.Slug == "app-automotive" %}{% set pageTitle = settings.seo_app_automotive|default:pageTitle %}
+{% elif post.Slug == "app-consumer" %}{% set pageTitle = settings.seo_app_consumer|default:pageTitle %}
+{% elif post.Slug == "company" %}{% set pageTitle = settings.seo_company|default:pageTitle %}
+{% elif post.Slug == "documents" %}{% set pageTitle = settings.seo_documents|default:pageTitle %}
+{% elif post.Slug == "faq" %}{% set pageTitle = settings.seo_faq|default:pageTitle %}
+{% elif post.Slug == "services" %}{% set pageTitle = settings.seo_services|default:pageTitle %}
+{% elif post.Slug == "contact" %}{% set pageTitle = settings.seo_contact|default:pageTitle %}
+{% endif %}
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    {% include "www/module/head" with title=pageTitle %}
+</head>
+<body>
+{% include "www/module/header" %}
+
+<div class="ap-page-hero ap-page-hero--plain" style="{% for meta in metas %}{% if meta.Key == "hero_image" and meta.Value %}background-image: url('{{ meta.Value }}');{% endif %}{% if meta.Key == "hero_bg_position" and meta.Value %}background-position: {{ meta.Value }};{% endif %}{% if meta.Key == "hero_gradient" and meta.Value %}background-image: {{ meta.Value }};{% endif %}{% endfor %}">
+    <div class="ap-container">
+        <h1 class="ap-page-hero__title">{{ post.Title }}</h1>
+        {% for meta in metas %}
+            {% if meta.Key == "hero_desc" and meta.Value %}
+                <p class="ap-page-hero__desc">{{ meta.Value }}</p>
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>

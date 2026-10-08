@@ -1,0 +1,19 @@
+{# 图片卡片：title / desc / image / link #}
+{% if title %}
+    <div class="ap-reveal">
+        <a class="ap-card" href="{{ link|default:'#' }}">
+            <div class="ap-card__thumb">
+                {% if image %}
+                    <img src="{{ image }}" alt="{{ title }}"/>
+                {% endif %}
+            </div>
+            <div class="ap-card__body">
+                <h3 class="ap-card__title">{{ title }}</h3>
+                {% if desc %}
+                    <p class="ap-card__desc">{{ desc }}</p>
+                {% endif %}
+                <div class="ap-card__more">查看详情</div>
+            </div>
+        </a>
+    </div>
+{% endif %}

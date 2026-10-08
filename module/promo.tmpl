@@ -1,0 +1,14 @@
+{# 增值服务横条：title / desc / link #}
+{% if title %}
+    <div class="ap-reveal">
+        <div class="ap-promo">
+            <div>
+                <h3 class="ap-promo__title">{{ title }}</h3>
+                {% if desc %}
+                    <p class="ap-promo__desc">{{ desc }}</p>
+                {% endif %}
+            </div>
+            <a class="ap-btn ap-btn--ghost" href="{{ link|default:'#' }}">立即了解</a>
+        </div>
+    </div>
+{% endif %}

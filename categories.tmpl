@@ -1,0 +1,40 @@
+{# 分类归档（路由 /categories，后端固定渲染本文件）：列出站点全部分类。产品中心已改为自定义页面 sheet_product.tmpl，不再由本模板承载 #}
+{% set allCategories = listCategory() %}
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    {% include "www/module/head" with title=printf("分类归档 - %s", settings.company_name|default:blog_title) %}
+</head>
+<body>
+{% include "www/module/header" %}
+
+<div class="ap-page-hero">
+    <div class="ap-container">
+        <h1 class="ap-page-hero__title">分类归档</h1>
+        <p class="ap-page-hero__desc">共 {{ allCategories|length }} 个分类</p>
+    </div>
+</div>
+
+<div class="ap-page">
+    <div class="ap-container">
+        {% if allCategories %}
+            <div class="ap-grid ap-grid--3">
+                {% for category in allCategories %}
+                    <a class="ap-card" href="{{ category.FullPath }}" title="{{ category.Name }}">
+                        <div class="ap-card__body">
+                            <h3 class="ap-card__title">{{ category.Name }}</h3>
+                            <p class="ap-card__desc">{{ category.PostCount }} 篇文章</p>
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="ap-empty">暂无分类</div>
+        {% endif %}
+    </div>
+</div>
+
+{% include "www/module/footer" %}
+{% include "www/module/scripts" %}
+</body>
+</html>

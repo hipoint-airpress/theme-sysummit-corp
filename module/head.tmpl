@@ -1,0 +1,35 @@
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="renderer" content="webkit"/>
+<meta name="format-detection" content="telephone=no"/>
+<title>{{ title|default:blog_title }}</title>
+<meta name="author" content="{{ user.Nickname }}"/>
+<meta name="keywords" content="{{ meta_keywords }}"/>
+<meta name="description" content="{{ meta_description }}"/>
+<link rel="alternate" type="application/rss+xml" title="atom 1.0" href="{{ atom_url }}"/>
+{% include "common/macro/head" %}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "{{ settings.company_name|default:blog_title }}",
+    "url": "{{ blog_url }}",
+    "logo": "{{ settings.logo }}",
+    "description": "{{ meta_description }}"
+}
+</script>
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "{{ settings.company_name|default:blog_title }}",
+    "url": "{{ blog_url }}",
+    "potentialAction": {
+        "@type": "SearchAction",
+        "target": "{{ blog_url }}/search?keyword={search_term_string}",
+        "query-input": "required name=search_term_string"
+    }
+}
+</script>
+{% include "www/module/styles" %}

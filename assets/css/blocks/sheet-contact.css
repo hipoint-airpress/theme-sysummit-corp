@@ -1,0 +1,290 @@
+/* ==========================================================================
+   blocks/sheet-contact.css — 联系我们页面样式
+   服务页面：sheet_contact.tmpl（页面模板 contact）；contact-block 也被 sheet_page 复用
+   关联模板：module/contact-block（留言表单交互见 www-blocks.js，复制提示 toast 由 JS 生成）
+   内容：三张信息卡、左表单 + 右服务说明、在线留言表单（ap-form）、复制成功提示
+   ========================================================================== */
+
+/* ---------- 联系我们（源站 contact.vue）：三张信息卡 + 左表单 + 右服务说明 ---------- */
+.ap-contact-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.ap-contact-card {
+    padding: 26px 20px;
+    border-radius: 12px;
+    background: var(--ap-bg);
+    border: 1px solid var(--ap-border);
+    text-align: center;
+    transition: all .3s ease;
+}
+
+.ap-contact-card:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--ap-shadow-card-hover);
+}
+
+.ap-contact-card__icon {
+    display: inline-flex;
+    color: var(--ap-primary);
+    margin-bottom: 12px;
+}
+
+.ap-contact-card__icon svg {
+    width: 40px;
+    height: 40px;
+}
+
+.ap-contact-card h3 {
+    margin: 0 0 10px;
+    font-size: var(--ds-type-headline-sm-size);
+    line-height: var(--ds-type-headline-sm-lh);
+    color: var(--ap-text);
+}
+
+.ap-contact-card p {
+    margin: 0 0 4px;
+    color: var(--ap-text-weak);
+    font-size: var(--ds-type-body-md-size);
+    line-height: 1.6;
+    cursor: copy;
+    word-break: break-all;
+}
+
+.ap-contact-card p:last-child {
+    margin-bottom: 0;
+}
+
+.ap-contact-main {
+    display: grid;
+    grid-template-columns: 14fr 10fr;
+    gap: 30px;
+    align-items: start;
+}
+
+.ap-contact-form {
+    min-width: 0;
+    padding: 25px;
+    border: 1px solid var(--ap-border);
+    border-radius: 12px;
+    background: var(--ap-bg);
+    border: 1px solid var(--ap-border);
+}
+
+.ap-contact-form__title {
+    position: relative;
+    margin: 0 0 22px;
+    padding-bottom: 10px;
+    font-size: var(--ds-type-headline-md-size);
+    line-height: var(--ds-type-headline-md-lh);
+    color: var(--ap-text);
+}
+
+.ap-contact-form__title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 40px;
+    height: 2px;
+    background: var(--ap-primary);
+}
+
+.ap-contact-form .ap-form {
+    max-width: none;
+    margin: 0;
+}
+
+/* 右侧服务说明：纵排小卡（源站 services-wrapper） */
+.ap-contact-services {
+    min-width: 0;
+    padding: 20px;
+    border-radius: 12px;
+    background: var(--ap-bg);
+    border: 1px solid var(--ap-border);
+}
+
+.ap-contact-service {
+    display: flex;
+    align-items: flex-start;
+    padding: 15px;
+    border-bottom: 1px solid var(--ap-border);
+    transition: all .3s ease;
+}
+
+.ap-contact-service:last-child {
+    border-bottom: none;
+}
+
+.ap-contact-service:hover {
+    background: var(--ap-bg-gray);
+    transform: translateX(5px);
+}
+
+.ap-contact-service__icon {
+    display: inline-flex;
+    flex-shrink: 0;
+    margin-right: 15px;
+    margin-top: 2px;
+    color: var(--ap-primary);
+}
+
+.ap-contact-service__icon svg {
+    width: 24px;
+    height: 24px;
+}
+
+.ap-contact-service__body {
+    min-width: 0;
+}
+
+.ap-contact-service__body h3 {
+    margin: 0 0 4px;
+    font-size: var(--ds-type-title-md-size);
+    line-height: var(--ds-type-title-md-lh);
+    color: var(--ap-text);
+}
+
+.ap-contact-service__body p {
+    margin: 0;
+    color: var(--ap-text-weak);
+    font-size: var(--ds-type-body-md-size);
+    line-height: 1.5;
+}
+
+/* 复制成功提示（源站 ElMessage.success 的轻量替代，www-blocks.js 动态生成） */
+.ap-toast {
+    position: fixed;
+    top: 90px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 999;
+    padding: 10px 24px;
+    border-radius: 6px;
+    background: var(--ap-primary);
+    color: #fff;
+    font-size: 14px;
+    box-shadow: var(--ap-shadow-dropdown);
+    animation: ap-toast-in .2s ease;
+}
+
+@keyframes ap-toast-in {
+    from { opacity: 0; transform: translate(-50%, -8px); }
+    to { opacity: 1; transform: translate(-50%, 0); }
+}
+
+/* ---------- 在线留言表单 ---------- */
+.ap-form {
+    max-width: 880px;
+    margin: 0 auto;
+}
+
+.ap-form__row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+}
+
+.ap-field {
+    margin-bottom: 14px;
+}
+
+.ap-field label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--ap-text);
+    font-size: var(--ds-type-body-md-size);
+}
+
+.ap-field label em {
+    margin-left: 2px;
+    color: var(--ap-error);
+    font-style: normal;
+}
+
+.ap-field input,
+.ap-field textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--ap-border);
+    border-radius: var(--ap-radius);
+    background: var(--ap-bg);
+    color: var(--ap-text);
+    font-size: 14px;
+    font-family: inherit;
+    line-height: 1.6;
+    transition: border-color .2s, box-shadow .2s;
+}
+
+.ap-field textarea {
+    resize: vertical;
+}
+
+.ap-field input:focus,
+.ap-field textarea:focus {
+    outline: none;
+    border-color: var(--ap-focus-ring);
+    box-shadow: 0 0 0 2px var(--ap-focus-ring);
+}
+
+.ap-field.is-error input,
+.ap-field.is-error textarea {
+    border-color: var(--ap-error);
+}
+
+.ap-form__foot {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.ap-form__tip {
+    color: var(--ap-text-light);
+    font-size: var(--ds-type-label-md-size);
+}
+
+.ap-form__msg {
+    margin-top: 16px;
+    padding: 12px 16px;
+    border-radius: var(--ap-radius);
+    background: var(--ap-primary-tint-08);
+    color: var(--ap-primary);
+    font-size: var(--ds-type-body-md-size);
+}
+
+.ap-form__msg.is-error {
+    background: var(--ap-error-tint);
+    color: var(--ap-error);
+}
+
+/* ---------- 响应式 ---------- */
+@media (max-width: 768px) {
+    /* 联系页（源站 768px 断点）：信息卡单列，表单与服务说明纵排 */
+    .ap-contact-cards {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        margin-bottom: 20px;
+    }
+
+    .ap-contact-card:hover { transform: none; }
+
+    .ap-contact-main {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .ap-contact-form { padding: 18px 15px; }
+
+    .ap-contact-form__title {
+        font-size: var(--ds-type-headline-sm-size);
+        margin-bottom: 16px;
+    }
+
+    .ap-contact-services { padding: 0; box-shadow: none; }
+
+    .ap-form__row { grid-template-columns: 1fr; gap: 0; }
+}

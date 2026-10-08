@@ -1,0 +1,15 @@
+{# 应用领域锚点导航：条目取自 sections 的标题，锚点 id 为 section-N。导航条是全宽吸顶组件，放在 .ap-page 之前 #}
+{% for meta in metas %}
+    {% if meta.Key == "sections" and meta.Value %}
+        <nav class="ap-anchor-nav ap-anchor-nav--page" id="apSectionNav">
+            <div class="ap-container">
+                <ul class="ap-anchor-nav__list">
+                    {% for item in meta.Value|split:"|" %}
+                        {% set s = item|split:"::" %}
+                        <li><a href="#section-{{ forloop.Counter }}" data-anchor="section-{{ forloop.Counter }}">{{ s.0 }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </nav>
+    {% endif %}
+{% endfor %}

@@ -1,0 +1,18 @@
+{# 应用领域页（工业应用 / 电力能源 / 汽车电子 / 消费电子）：Banner + 吸顶锚点导航 + 各领域图文区块 #}
+{% include "www/module/sheet-head" %}
+{% include "www/module/sections-nav" %}
+
+<div class="ap-page">
+    <div class="ap-container">
+        {% if post.Content %}
+            <div class="ap-content" id="apIntro">{{ post.Content|safe }}</div>
+        {% endif %}
+
+        {% include "www/module/sections-block" %}
+    </div>
+</div>
+
+{% include "www/module/footer" %}
+{% include "www/module/scripts" %}
+</body>
+</html>

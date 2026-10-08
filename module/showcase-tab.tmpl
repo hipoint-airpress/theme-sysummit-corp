@@ -1,0 +1,5 @@
+{# 首页「应用领域」切换卡：{% include "www/module/showcase-tab" with index=1 title="..." icon="factory" link="..." %} #}
+<a class="ap-showcase__tab {% if index == 1 %}is-active{% endif %}" href="{{ link }}" data-index="{{ index }}">
+    {% include "www/module/icon" with name=icon %}
+    <span>{{ title }}</span>
+</a>

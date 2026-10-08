@@ -1,0 +1,17 @@
+{# 技术文档页：Banner + 正文 + 资料下载表格（按系列筛选） #}
+{% include "www/module/sheet-head" %}
+
+<div class="ap-page">
+    <div class="ap-container">
+        {% if post.Content %}
+            <div class="ap-content" id="apIntro">{{ post.Content|safe }}</div>
+        {% endif %}
+
+        {% include "www/module/files-block" %}
+    </div>
+</div>
+
+{% include "www/module/footer" %}
+{% include "www/module/scripts" %}
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    {% include "www/module/head" with title=printf("%s - %s", "动态", blog_title) %}
+</head>
+<body>
+{% include "www/module/header" %}
+{% include "www/module/breadcrumb" with current="动态" %}
+
+<div class="ap-page">
+    <div class="ap-container">
+        <h1 class="ap-page__title">动态</h1>
+        <div class="ap-page__meta"><span>共 {{ journals.Total }} 条</span></div>
+        <div style="margin-top:24px">
+            {% if journals.Content %}
+                <div class="ap-journals">
+                    {% for journal in journals.Content %}
+                        <div class="ap-journal">
+                            <div class="ap-journal__time">{{ unix_milli_time_format("2006-01-02 15:04", journal.CreateTime) }}</div>
+                            <div class="ap-journal__content">{{ journal.Content|safe }}</div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="ap-empty">暂无动态</div>
+            {% endif %}
+        </div>
+        {% if journals.Pages > 1 %}
+            {% set pagination = journalsPagination(journals.PageNum, journals.Pages, 3) %}
+            {% set total = journals.Total %}
+            {% include "www/module/pagination" %}
+        {% endif %}
+    </div>
+</div>
+
+{% include "www/module/footer" %}
+{% include "www/module/scripts" %}
+</body>
+</html>

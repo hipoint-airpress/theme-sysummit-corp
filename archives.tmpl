@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    {% include "www/module/head" with title=settings.news_seo_title|default:printf("%s - %s", settings.news_title|default:"新闻中心", settings.company_name|default:blog_title) %}
+</head>
+<body>
+{% include "www/module/header" %}
+
+<div class="ap-page-hero" {% if settings.news_bg %}style="background-image: url('{{ settings.news_bg }}')"{% endif %}>
+    <div class="ap-container">
+        <h1 class="ap-page-hero__title">{{ settings.news_title|default:"新闻中心" }}</h1>
+        {% if settings.news_desc %}
+            <p class="ap-page-hero__desc">{{ settings.news_desc }}</p>
+        {% endif %}
+    </div>
+</div>
+
+<div class="ap-page">
+    <div class="ap-container">
+        {# 只取「新闻中心」分类下的文章，产品（dsc/soc 系列）不混进新闻列表 #}
+        {% set newsPosts = listPostByCategorySlug("news") %}
+        {% if newsPosts|length == 0 %}{% set newsPosts = posts.Content %}{% endif %}
+        {# 侧栏分类来自后台「标签」（主题自带接口 getAllTag）；新增/改名标签无需改模板 #}
+        {% set newsTags = getAllTag() %}
+
+        {# ---------- 顶部轮播（源站 newsConfig.carousel：前 3 条置顶新闻，图左文右） ---------- #}
+        {% if newsPosts|length > 0 %}
+            <div class="ap-news-carousel" id="apNewsCarousel">
+                <div class="ap-news-carousel__viewport">
+                    {% for item in newsPosts %}
+                        {% if forloop.Counter <= 3 %}
+                            <a class="ap-news-carousel__item" href="{{ item.FullPath }}" title="{{ item.Title }}">
+                                <div class="ap-news-carousel__image">
+                                    {% if item.Thumbnail %}<img src="{{ item.Thumbnail }}" alt="{{ item.Title }}" loading="lazy"/>{% endif %}
+                                </div>
+                                <div class="ap-news-carousel__content">
+                                    <div class="ap-news-item__meta">
+                                        <span>{{ unix_milli_time_format("2006-01-02", item.CreateTime) }}</span>
+                                        {% if item.Tags %}<span class="ap-news-cat">{{ item.Tags.0.Name }}</span>{% endif %}
+                                    </div>
+                                    <h3 class="ap-news-carousel__title">{{ item.Title }}</h3>
+                                    {% if item.Summary %}<p class="ap-news-carousel__desc">{{ item.Summary|striptags|truncatechars:110 }}</p>{% endif %}
+                                    <span class="ap-btn ap-btn--sm">了解更多</span>
+                                </div>
+                            </a>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <button type="button" class="ap-news-carousel__arrow ap-news-carousel__arrow--prev" data-direction="-1" aria-label="上一条"></button>
+                <button type="button" class="ap-news-carousel__arrow ap-news-carousel__arrow--next" data-direction="1" aria-label="下一条"></button>
+                <div class="ap-news-carousel__dots"></div>
+            </div>
+        {% endif %}
+
+        {# ---------- 主体：左侧分类 + 右侧列表（源站 .news-main） ---------- #}
+        <div class="ap-news-main">
+            <aside class="ap-news-side">
+                <div class="ap-news-side__box">
+                    <h3>新闻分类</h3>
+                    <div class="ap-news-side__list" id="apNewsFilter">
+                        <button type="button" class="ap-news-side__item is-active" data-cat="all">全部<span class="ap-news-side__count" data-count="all"></span></button>
+                        {% for tag in newsTags %}
+                            <button type="button" class="ap-news-side__item" data-cat="{{ tag.Slug }}">{{ tag.Name }}<span class="ap-news-side__count" data-count="{{ tag.Slug }}"></span></button>
+                        {% endfor %}
+                    </div>
+                </div>
+            </aside>
+
+            <div class="ap-news-listing">
+                <div class="ap-news-listing__head">
+                    <h2 class="ap-news-listing__title" id="apNewsTitle">全部</h2>
+                    <span class="ap-news-listing__total">共 <span id="apNewsCount">{{ newsPosts|length }}</span> 条新闻</span>
+                </div>
+
+                {% if newsPosts|length > 0 %}
+                    {# 无 JS 时平铺可见；JS 按标签过滤。data-tags 输出全部标签 slug（空格分隔），与侧栏计数口径一致 #}
+                    <div class="ap-news-list" id="apNewsList">
+                        {% for item in newsPosts %}
+                            <a class="ap-news-item" href="{{ item.FullPath }}" title="{{ item.Title }}"{% if item.Tags %} data-tags="{% for t in item.Tags %}{{ t.Slug }}{% if not forloop.Last %} {% endif %}{% endfor %}"{% endif %}>
+                                <div class="ap-news-item__thumb">
+                                    {% if item.Thumbnail %}<img src="{{ item.Thumbnail }}" alt="{{ item.Title }}" loading="lazy"/>{% endif %}
+                                </div>
+                                <div class="ap-news-item__body">
+                                    <h2 class="ap-news-item__title">
+                                        {% if item.Topped %}<span class="ap-news-sticky">置顶</span>{% endif %}{{ item.Title }}
+                                    </h2>
+                                    <div class="ap-news-item__meta">
+                                        <span>{{ unix_milli_time_format("2006-01-02", item.CreateTime) }}</span>
+                                        {% if item.Tags %}<span class="ap-news-cat">{{ item.Tags.0.Name }}</span>{% endif %}
+                                        <span class="ap-news-more">阅读全文 →</span>
+                                    </div>
+                                </div>
+                            </a>
+                        {% endfor %}
+                    </div>
+                    <div class="ap-empty" id="apNewsEmpty" hidden>暂无新闻</div>
+                {% else %}
+                    <div class="ap-empty">暂无新闻</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include "www/module/footer" %}
+{% include "www/module/scripts" %}
+</body>
+</html>

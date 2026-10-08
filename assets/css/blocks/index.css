@@ -1,0 +1,463 @@
+/* ==========================================================================
+   blocks/index.css — 首页板块样式
+   服务页面：index.tmpl（首页）
+   内容：首屏 Banner（ap-hero）、应用领域切换展示（ap-showcase，showcase-panel /
+         showcase-tab 模块）、增值服务（ap-services）
+   ========================================================================== */
+
+/* ---------- 首屏 Banner ---------- */
+.ap-hero--banner {
+    position: relative;
+    min-height: 650px;
+    display: flex;
+    align-items: center;
+    padding: 96px 0;
+    color: #fff;
+    overflow: hidden;
+}
+
+.ap-hero--banner .ap-hero__bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+}
+
+.ap-hero--banner .ap-hero__bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    /* 深海军蓝渐变遮罩（左重右轻），保证文字可读；色相与 showcase 遮罩一致 */
+    background: linear-gradient(100deg, var(--ap-hero-mask-from) 0%, rgba(11, 31, 56, .3) 55%, var(--ap-hero-mask-to) 100%);
+}
+
+.ap-hero--banner .ap-container {
+    position: relative;
+    z-index: 2;
+}
+
+.ap-hero--banner .ap-hero__title {
+    color: #fff;
+    font-size: var(--ds-type-display-size);
+    line-height: var(--ds-type-display-lh);
+    font-weight: var(--ds-type-display-weight);
+    letter-spacing: var(--ds-type-display-ls);
+    line-height: 1.2;
+}
+
+.ap-hero--banner .ap-hero__subtitle {
+    font-size: var(--ds-type-headline-md-size);
+    line-height: var(--ds-type-headline-md-lh);
+}
+
+.ap-hero--banner .ap-hero__subtitle,
+.ap-hero--banner .ap-hero__desc {
+    color: rgba(255, 255, 255, .86);
+}
+
+.ap-hero--sm {
+    min-height: 300px;
+    padding: 64px 0;
+}
+
+.ap-hero--sm .ap-hero__title {
+    font-size: var(--ds-type-headline-lg-size);
+    line-height: var(--ds-type-headline-lg-lh);
+}
+
+/* ---------- 应用领域切换展示（showcase-panel / showcase-tab 模块） ---------- */
+.ap-showcase {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.ap-showcase__panels {
+    position: relative;
+}
+
+.ap-showcase__panel {
+    display: none;
+}
+
+.ap-showcase__panel.is-active {
+    display: block;
+    animation: apFadeIn .35s ease;
+}
+
+.ap-showcase__image {
+    position: relative;
+    height: 480px;
+    border-radius: var(--ap-radius-lg);
+    overflow: hidden;
+    background: var(--ap-bg-gray);
+}
+
+.ap-showcase__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.ap-showcase__image::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(11, 31, 56, .8) 0%, rgba(11, 31, 56, .35) 60%, rgba(11, 31, 56, .1) 100%);
+}
+
+.ap-showcase__text {
+    position: absolute;
+    left: 48px;
+    bottom: 48px;
+    z-index: 2;
+    max-width: 560px;
+    color: #fff;
+}
+
+.ap-showcase__text h3 {
+    margin: 0 0 12px;
+    font-size: var(--ds-type-headline-md-size);
+    line-height: var(--ds-type-headline-md-lh);
+    color: #fff;
+}
+
+.ap-showcase__desc {
+    margin: 0 0 20px;
+    color: rgba(255, 255, 255, .85);
+    line-height: 1.8;
+}
+
+.ap-showcase__tabs {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+
+/* 玻璃态切换卡：半透明浅底 + 浅色描边，贴合深海军蓝区块（仅深色区块使用）。
+   图标 inverse-primary 微透；hover 提亮文字；激活态 inverse-primary 浅底 + 白字 + 微浮起 */
+.ap-showcase__tab {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 14px 16px;
+    border: 1px solid var(--ap-dark-chip-border);
+    border-radius: var(--ap-radius);
+    background: var(--ap-dark-chip-bg);
+    color: var(--ap-inverse-muted);
+    font-size: var(--ds-type-body-md-size);
+    font-weight: 500;
+    transition: all .25s ease;
+}
+
+.ap-showcase__tab svg {
+    width: 22px;
+    height: 22px;
+    color: var(--ap-inverse-primary);
+    opacity: .85;
+    transition: opacity .25s ease;
+}
+
+.ap-showcase__tab:hover {
+    border-color: var(--ap-dark-chip-active-border);
+    background: var(--ap-dark-chip-hover-bg);
+    color: var(--ap-inverse-on-surface);
+    transform: translateY(-2px);
+}
+
+.ap-showcase__tab:hover svg,
+.ap-showcase__tab.is-active svg {
+    opacity: 1;
+}
+
+.ap-showcase__tab.is-active {
+    border-color: var(--ap-dark-chip-active-border);
+    background: var(--ap-dark-chip-active-bg);
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+@keyframes apFadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: none; }
+}
+
+/* ---------- 增值服务 ---------- */
+.ap-services {
+    margin-bottom: 32px;
+}
+
+/* ==========================================================
+   首页炫酷特效（v2.1 Home FX）
+   约定：全部纯 CSS 令牌驱动；入场动画填充结束态即自然态，不遮挡 hover；
+   prefers-reduced-motion 统一在文件末尾降级。
+   ========================================================== */
+
+/* 首屏背景：Ken Burns 缓慢缩放（alternate 往返，缩放 ≥1 保证 cover 不露边） */
+.ap-hero--banner .ap-hero__bg {
+    animation: apHeroZoom 26s ease-in-out infinite alternate;
+}
+
+@keyframes apHeroZoom {
+    from { transform: scale(1); }
+    to { transform: scale(1.08); }
+}
+
+/* 首屏文案：标题组依次淡入上浮 */
+.ap-hero--banner .ap-hero__inner > * {
+    animation: apHeroRise .7s ease both;
+}
+
+.ap-hero--banner .ap-hero__inner > *:nth-child(2) { animation-delay: .15s; }
+.ap-hero--banner .ap-hero__inner > *:nth-child(3) { animation-delay: .3s; }
+
+@keyframes apHeroRise {
+    from { opacity: 0; transform: translateY(26px); }
+    to { opacity: 1; transform: none; }
+}
+
+/* 首屏底部滚动提示（纯装饰，移动端隐藏见响应式段） */
+.ap-hero__scroll {
+    position: absolute;
+    left: 50%;
+    bottom: 26px;
+    z-index: 2;
+    color: rgba(255, 255, 255, .75);
+    animation: apScrollHint 2.2s ease-in-out infinite;
+}
+
+.ap-hero__scroll svg {
+    width: 26px;
+    height: 26px;
+}
+
+@keyframes apScrollHint {
+    0%, 100% { transform: translate(-50%, 0); opacity: .45; }
+    50% { transform: translate(-50%, 8px); opacity: 1; }
+}
+
+/* 区块标题组：滚动显现时装饰短线生长（.ap-reveal 由 main.js 观察器驱动） */
+.ap-section__head.ap-reveal .ap-section__title::after {
+    width: 0;
+    transition: width .5s ease .35s;
+}
+
+.ap-section__head.ap-reveal.is-visible .ap-section__title::after {
+    width: 40px;
+}
+
+/* 栅格子项错峰显现：增值条 / 特性卡 / 新闻卡（.ap-reveal 包裹层由 JS 驱动） */
+.ap-grid .ap-reveal:nth-child(2) { transition-delay: .08s; }
+.ap-grid .ap-reveal:nth-child(3) { transition-delay: .16s; }
+.ap-grid .ap-reveal:nth-child(4) { transition-delay: .24s; }
+
+/* 特性卡图标：hover 渐变发光 + 放大（.ap-feature 仅首页使用） */
+.ap-feature__icon {
+    transition: all .3s ease;
+}
+
+.ap-feature:hover .ap-feature__icon {
+    background: linear-gradient(135deg, var(--ap-primary) 0%, var(--ap-secondary) 100%);
+    color: #fff;
+    transform: scale(1.08);
+    box-shadow: 0 8px 20px var(--ap-primary-tint-40);
+}
+
+/* 增值横幅：hover 渐变缓流（200% 背景尺寸，位置推移产生流动感） */
+.ap-promo {
+    background: linear-gradient(120deg, var(--ap-primary) 0%, var(--ap-secondary) 50%, var(--ap-primary) 100%);
+    background-size: 200% 100%;
+    transition: background-position .8s ease;
+}
+
+.ap-promo:hover {
+    background-position: 100% 0;
+}
+
+/* 应用领域面板：激活时图片缩放淡入（配合既有 apFadeIn 面板级动画） */
+.ap-showcase__panel.is-active .ap-showcase__image img {
+    animation: apShowcaseZoom .7s ease both;
+}
+
+@keyframes apShowcaseZoom {
+    from { transform: scale(1.06); }
+    to { transform: scale(1); }
+}
+
+/* 应用领域 Tab：错峰浮入（backwards 填充，结束后回归自然态、不挡 hover） */
+.ap-showcase__tabs .ap-showcase__tab {
+    animation: apRiseIn .5s ease backwards;
+}
+
+.ap-showcase__tabs .ap-showcase__tab:nth-child(1) { animation-delay: .05s; }
+.ap-showcase__tabs .ap-showcase__tab:nth-child(2) { animation-delay: .15s; }
+.ap-showcase__tabs .ap-showcase__tab:nth-child(3) { animation-delay: .25s; }
+.ap-showcase__tabs .ap-showcase__tab:nth-child(4) { animation-delay: .35s; }
+
+@keyframes apRiseIn {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: none; }
+}
+
+/* 激活 Tab 顶部指示条（深底上用 inverse-primary，主色在深海军蓝上不可见） */
+.ap-showcase__tab {
+    position: relative;
+}
+
+.ap-showcase__tab::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 26px;
+    height: 3px;
+    border-radius: 0 0 3px 3px;
+    background: var(--ap-inverse-primary);
+    transform: translateX(-50%) scaleX(0);
+    transition: transform .3s ease;
+}
+
+.ap-showcase__tab.is-active::before {
+    transform: translateX(-50%) scaleX(1);
+}
+
+/* ---------- 首页新闻动态 ---------- */
+/* 图片压扁（约 16:7）、标题左对齐：比全局居中卡片（产品）更有列表感 */
+.ap-news-home .ap-card__thumb {
+    padding-top: 40%;
+}
+
+.ap-news-home .ap-card__title {
+    text-align: left;
+}
+
+.ap-news-home .ap-card__body {
+    padding: 16px 20px 20px;
+}
+
+/* ---------- 特色产品（ap-featured） ---------- */
+
+/* 缩略图高光扫过：hover 时斜向光带划过（排除破图占位态，避免覆盖占位文字） */
+.ap-featured .ap-card__thumb:not(.is-broken)::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(105deg, transparent 42%, rgba(255, 255, 255, .38) 50%, transparent 58%);
+    transform: translateX(-130%);
+    pointer-events: none;
+}
+
+.ap-featured .ap-card:hover .ap-card__thumb:not(.is-broken)::after {
+    animation: apShineSweep .8s ease;
+}
+
+@keyframes apShineSweep {
+    from { transform: translateX(-130%); }
+    to { transform: translateX(130%); }
+}
+
+/* 卡片「查看详情」：箭头 hover 右移（文字样式复用 main.css .ap-card__more） */
+.ap-featured .ap-card__more {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.ap-featured .ap-card__more::after {
+    content: "→";
+    transition: transform .25s ease;
+}
+
+.ap-featured .ap-card:hover .ap-card__more::after {
+    transform: translateX(4px);
+}
+
+/* ---------- 响应式 ---------- */
+@media (max-width: 1200px) {
+    .ap-showcase__image { height: 360px; }
+}
+
+@media (max-width: 768px) {
+    .ap-hero--banner { min-height: 320px; padding: 56px 0; }
+    .ap-hero__scroll { display: none; }
+    .ap-hero--banner .ap-hero__title { font-size: var(--ds-type-display-m-size); line-height: var(--ds-type-display-m-lh); }
+    .ap-hero--sm { min-height: 200px; padding: 40px 0; }
+    .ap-hero--sm .ap-hero__title { font-size: var(--ds-type-headline-lg-m-size); line-height: var(--ds-type-headline-lg-m-lh); }
+
+    .ap-showcase__tabs { grid-template-columns: repeat(2, 1fr); }
+    /* 默认（触屏）：4 个面板纵向平铺，Tab 只作跳转入口 */
+    .ap-showcase__panel {
+        display: block !important;
+        position: relative;
+        margin-bottom: 24px;
+    }
+    .ap-showcase__panel:last-child { margin-bottom: 0; }
+    .ap-showcase__image { height: 200px; }
+    .ap-showcase__image::after { display: none; }
+    /* 文字改为图下常规排版：原来靠 absolute + bottom 定位，包含块是 .ap-showcase__panels，
+       4 个面板展开后所有文字会叠在容器底部、互相压在一起 */
+    .ap-showcase__text {
+        position: static;
+        left: auto;
+        right: auto;
+        bottom: auto;
+        max-width: none;
+        padding-top: 14px;
+        color: var(--ap-text);
+    }
+    .ap-showcase__text h3 {
+        margin-bottom: 6px;
+        font-size: var(--ds-type-headline-sm-size);
+        color: var(--ap-text);
+    }
+    .ap-showcase__desc {
+        margin-bottom: 12px;
+        color: var(--ap-text-weak);
+        line-height: 1.7;
+    }
+    /* 深色区块内（ap-section--dark）平铺排版的文字反转：默认配色为浅色底设计 */
+    .ap-section--dark .ap-showcase__text,
+    .ap-section--dark .ap-showcase__text h3 {
+        color: var(--ap-inverse-on-surface);
+    }
+    .ap-section--dark .ap-showcase__desc {
+        color: var(--ap-inverse-muted);
+    }
+    /* 浅色背景上玻璃按钮看不见，换实心按钮 */
+    .ap-showcase__text .ap-btn--glass {
+        background: var(--ap-primary);
+        border-color: var(--ap-primary);
+        color: #fff;
+    }
+}
+
+/* 有鼠标的窄窗口（桌面缩窄 / 平板外接鼠标）：恢复 Tab 悬浮切换，一次只展示一个面板。
+   Tab 提到面板上方——窄屏文字排在图下，切换面板时高度会变化，Tab 在下方会被顶走导致鼠标脱离。
+   不支持 hover 特性查询的旧浏览器不会命中本块，仍走上面的纵向平铺（触屏友好） */
+@media (max-width: 768px) and (hover: hover) {
+    .ap-showcase__panel { display: none !important; }
+    .ap-showcase__panel.is-active { display: block !important; }
+    .ap-showcase__tabs { order: -1; }
+}
+
+/* ---------- 动效降级：尊重系统减少动态偏好 ---------- */
+@media (prefers-reduced-motion: reduce) {
+    .ap-hero--banner .ap-hero__bg,
+    .ap-hero--banner .ap-hero__inner > *,
+    .ap-hero__scroll,
+    .ap-showcase__tabs .ap-showcase__tab,
+    .ap-showcase__panel.is-active .ap-showcase__image img,
+    .ap-featured .ap-card:hover .ap-card__thumb:not(.is-broken)::after {
+        animation: none;
+    }
+
+    .ap-grid .ap-reveal,
+    .ap-featured .ap-card__more::after {
+        transition: none;
+    }
+
+    .ap-section__head.ap-reveal .ap-section__title::after {
+        transition: none;
+        width: 40px;
+    }
+}

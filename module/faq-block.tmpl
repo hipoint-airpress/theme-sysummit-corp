@@ -1,0 +1,19 @@
+{# 常见问题折叠面板：faq = "问题::答案|问题2::答案2"，依赖 www-blocks.js 的 initFaq #}
+{% for meta in metas %}
+    {% if meta.Key == "faq" and meta.Value %}
+        <div class="ap-block">
+            <div class="ap-faq" id="apFaq">
+                {% for item in meta.Value|split:"|" %}
+                    {% set qa = item|split:"::" %}
+                    <div class="ap-faq__item">
+                        <button class="ap-faq__q" type="button">
+                            <span>{{ qa.0 }}</span>
+                            {% include "www/module/icon" with name="arrow-down" %}
+                        </button>
+                        <div class="ap-faq__a"><p>{{ qa.1 }}</p></div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+{% endfor %}

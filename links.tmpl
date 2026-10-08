@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    {% include "www/module/head" with title=printf("%s - %s", "合作伙伴", blog_title) %}
+</head>
+<body>
+{% include "www/module/header" %}
+{% include "www/module/breadcrumb" with current="合作伙伴" %}
+
+<div class="ap-page">
+    <div class="ap-container">
+        <h1 class="ap-page__title">合作伙伴</h1>
+        <div class="ap-page__meta"><span>共 {{ getLinksCount }} 个链接</span></div>
+        <div style="margin-top:24px">
+            {% set links = listLinks %}
+            {% if links %}
+                <div class="ap-links">
+                    {% for link in links %}
+                        <a class="ap-link" href="{{ link.URL }}" target="_blank" rel="noopener">
+                            {% if link.Logo %}
+                                <img src="{{ link.Logo }}" alt="{{ link.Name }}"/>
+                            {% endif %}
+                            <div style="min-width:0">
+                                <div class="ap-link__name">{{ link.Name }}</div>
+                                {% if link.Description %}
+                                    <div class="ap-link__desc">{{ link.Description }}</div>
+                                {% endif %}
+                            </div>
+                        </a>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="ap-empty">暂无链接</div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% include "www/module/footer" %}
+{% include "www/module/scripts" %}
+</body>
+</html>

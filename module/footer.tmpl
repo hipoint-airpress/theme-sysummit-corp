@@ -1,0 +1,61 @@
+{% set footerMenus = listMenuByTeam(settings.footer_menu_team|default:"footer") %}
+<footer class="ap-footer">
+    <div class="ap-container ap-footer__main">
+        <div class="ap-footer__col">
+            <h4 class="ap-footer__title">关于我们</h4>
+            <p class="ap-footer__desc">{{ settings.footer_slogan|default:printf("%s - 专注半导体科技创新，引领行业发展", settings.company_name|default:blog_title) }}</p>
+            <ul class="ap-footer__contact">
+                {% if settings.contact_address %}
+                    <li>{% include "www/module/icon" with name="location" %}<span>{{ settings.contact_address }}</span></li>
+                {% endif %}
+                {% if settings.contact_phone %}
+                    <li>{% include "www/module/icon" with name="phone" %}<a href="tel:{{ settings.contact_tel|default:settings.contact_phone }}">{{ settings.contact_phone }}</a></li>
+                {% endif %}
+                {% if settings.contact_email %}
+                    <li>{% include "www/module/icon" with name="mail" %}<a href="mailto:{{ settings.contact_email }}">{{ settings.contact_email }}</a></li>
+                {% endif %}
+                {% if settings.contact_email2 %}
+                    <li>{% include "www/module/icon" with name="mail" %}<a href="mailto:{{ settings.contact_email2 }}">{{ settings.contact_email2 }}</a></li>
+                {% endif %}
+            </ul>
+        </div>
+
+        <div class="ap-footer__col">
+            <h4 class="ap-footer__title">快速链接</h4>
+            <ul class="ap-footer__list">
+                {% if footerMenus %}
+                    {% for menu in footerMenus %}
+                        <li><a href="{{ menu.URL }}" {% if menu.Target %}target="{{ menu.Target }}"{% endif %}>{{ menu.Name }}</a></li>
+                    {% endfor %}
+                {% else %}
+                    <li><a href="{{ settings.contact_url|default:'/s/contact' }}">联系我们</a></li>
+                    <li><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">{{ settings.icp|default:"备案信息" }}</a></li>
+                {% endif %}
+            </ul>
+        </div>
+
+        <div class="ap-footer__col">
+            <h4 class="ap-footer__title">应用领域</h4>
+            <ul class="ap-footer__list">
+                {% if settings.app1_title %}<li><a href="{{ settings.app1_link }}">{{ settings.app1_title }}</a></li>{% endif %}
+                {% if settings.app2_title %}<li><a href="{{ settings.app2_link }}">{{ settings.app2_title }}</a></li>{% endif %}
+                {% if settings.app3_title %}<li><a href="{{ settings.app3_link }}">{{ settings.app3_title }}</a></li>{% endif %}
+                {% if settings.app4_title %}<li><a href="{{ settings.app4_link }}">{{ settings.app4_title }}</a></li>{% endif %}
+            </ul>
+        </div>
+
+        <div class="ap-footer__col">
+            <h4 class="ap-footer__title">联系我们</h4>
+        </div>
+    </div>
+    <div class="ap-footer__bottom">
+        <div class="ap-container ap-footer__copyright">
+            <p>{{ settings.copyright|default:printf("©2025 %s All rights reserved.", settings.company_name|default:"六岳微电子") }}</p>
+            {% if settings.beian_no %}
+                <p><a href="//www.beian.gov.cn/portal/registerSystemInfo?recordcode={{ settings.beian_code }}" target="_blank" rel="noopener">{{ settings.beian_no }}</a></p>
+            {% endif %}
+            <p><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">{{ settings.icp|default:"湘ICP备2025147673号-1" }}</a></p>
+        </div>
+    </div>
+</footer>
+{% include "common/macro/footer_info" %}

@@ -1,0 +1,15 @@
+{# 通用锚点导航：anchors = "标题::区块ID|标题2::区块ID2"，区块 ID 对应页面上固定的锚点 id（如 apIntro / apTimeline / apCards） #}
+{% for meta in metas %}
+    {% if meta.Key == "anchors" and meta.Value %}
+        <nav class="ap-anchor-nav ap-anchor-nav--page" id="apSectionNav">
+            <div class="ap-container">
+                <ul class="ap-anchor-nav__list">
+                    {% for item in meta.Value|split:"|" %}
+                        {% set a = item|split:"::" %}
+                        <li><a href="#{{ a.1 }}" data-anchor="{{ a.1 }}">{{ a.0 }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </nav>
+    {% endif %}
+{% endfor %}

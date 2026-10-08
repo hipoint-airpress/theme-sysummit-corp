@@ -1,0 +1,15 @@
+{# 新闻 / 通用文章详情：面包屑 + 标题与信息（日期/分类/作者/来源/浏览）+ 封面 + 正文 + 分享 + 上下篇 + 返回列表 #}
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    {% include "www/module/head" with title=printf("%s - %s", post.Title, settings.company_name|default:blog_title) %}
+</head>
+<body>
+{% include "www/module/header" %}
+
+{% include "www/module/news-detail" %}
+
+{% include "www/module/footer" %}
+{% include "www/module/scripts" %}
+</body>
+</html>

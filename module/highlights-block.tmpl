@@ -1,0 +1,25 @@
+{# 产品亮点（源站 .product-highlights）：product_highlights 存 JSON 数组 [{"title":"分组标题","items":["条目1","条目2"]}]，由 post_product 使用；解析失败（非 JSON 或为空）时不渲染 #}
+{% for meta in metas %}
+    {% if meta.Key == "product_highlights" and meta.Value %}
+        {% set groups = from_json(meta.Value) %}
+        {% if groups %}
+            <div class="ap-container">
+                <div class="ap-block">
+                    <h2 class="ap-block__title">{{ settings.product_highlight_title|default:"产品亮点" }}</h2>
+                    <div class="ap-highlights">
+                        {% for group in groups %}
+                            <div class="ap-highlight">
+                                <h3 class="ap-highlight__title">{% include "www/module/icon" with name="chip" %}{{ group.title }}</h3>
+                                <ul class="ap-highlight__list">
+                                    {% for item in group.items %}
+                                        <li>{{ item }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    {% endif %}
+{% endfor %}

@@ -1,0 +1,25 @@
+{# 发展历程时间线（源站 about）：timeline = "年份::标题::描述::补充描述"，标题由 timeline_title 指定，锚点 id 为 apTimeline #}
+{% for meta in metas %}
+    {% if meta.Key == "timeline" and meta.Value %}
+        <div class="ap-block" id="apTimeline">
+            {% for t in metas %}
+                {% if t.Key == "timeline_title" and t.Value %}
+                    <h2 class="ap-block__title ap-block__title--center">{{ t.Value }}</h2>
+                {% endif %}
+            {% endfor %}
+            <ul class="ap-timeline">
+                {% for item in meta.Value|split:"|" %}
+                    {% set t = item|split:"::" %}
+                    <li class="ap-timeline__item">
+                        <div class="ap-timeline__time">{{ t.0 }}</div>
+                        <div class="ap-timeline__card">
+                            <h3 class="ap-timeline__title">{{ t.1 }}</h3>
+                            {% if t.2 %}<p class="ap-timeline__desc">{{ t.2 }}</p>{% endif %}
+                            {% if t.3 %}<p class="ap-timeline__desc">{{ t.3 }}</p>{% endif %}
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+{% endfor %}

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    {% include "www/module/head" with title=printf("%s%s - %s", "搜索：", keyword, blog_title) %}
+</head>
+<body>
+{% include "www/module/header" %}
+{% include "www/module/breadcrumb" with current=printf("%s%s", "搜索：", keyword) %}
+
+<div class="ap-page">
+    <div class="ap-container">
+        <h1 class="ap-page__title">搜索：{{ keyword }}</h1>
+        <div class="ap-page__meta">
+            <span>共 {{ posts.Total }} 条结果</span>
+        </div>
+        <div style="margin-top:24px">
+            {% include "www/module/post-list" %}
+        </div>
+        {% if posts.Pages > 1 %}
+            {% set pagination = searchPagination(posts.PageNum, posts.Pages, 3, keyword) %}
+            {% set total = posts.Total %}
+            {% include "www/module/pagination" %}
+        {% endif %}
+    </div>
+</div>
+
+{% include "www/module/footer" %}
+{% include "www/module/scripts" %}
+</body>
+</html>
