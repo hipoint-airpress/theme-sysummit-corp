@@ -582,6 +582,23 @@ news:
       type: text
       data-type: string
       default: '新闻中心 - 六岳微电子 | 公司最新动态与新闻资讯'
+jobs:
+  label: 加入我们
+  items:
+    job_apply_email:
+      name: job_apply_email
+      label: 投递邮箱
+      type: text
+      data-type: string
+      default: 'hr@sysummit.com'
+      description: 岗位详情页「立即投递」按钮的收件邮箱（点击后调用本机邮件客户端）；留空则不显示投递按钮
+    job_apply_text:
+      name: job_apply_text
+      label: 投递按钮文字
+      type: text
+      data-type: string
+      default: '立即投递'
+      description: 留空则显示「立即投递」
 pageseo:
   label: 页面 SEO 标题
   items:
@@ -640,6 +657,12 @@ pageseo:
       type: text
       data-type: string
       default: '联系我们 - 六岳微电子 | 地址电话邮箱及技术支持服务'
+    seo_jobs:
+      name: seo_jobs
+      label: 加入我们
+      type: text
+      data-type: string
+      default: '加入我们 - 六岳微电子 | 社会招聘与校园招聘岗位'
 footer:
   label: 页脚设置
   items:

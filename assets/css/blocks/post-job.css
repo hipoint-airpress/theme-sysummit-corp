@@ -1,0 +1,51 @@
+/* ==========================================================================
+   blocks/post-job.css — 岗位详情板块样式
+   服务页面：post_job.tmpl（文章模板 job）
+   关联模板：module/breadcrumb
+   ========================================================================== */
+
+.ap-job-detail__head {
+    margin-bottom: 16px;
+}
+
+.ap-job-detail__meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 10px;
+    font-size: var(--ds-type-body-sm-size);
+    color: var(--ap-text-light);
+}
+
+.ap-job-detail__meta a:hover {
+    color: var(--ap-primary);
+}
+
+/* 操作栏：立即投递 + 返回招聘列表同一排；投递邮箱留空时只剩返回按钮 */
+.ap-job-detail__actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid var(--ap-border);
+}
+
+/* 投递按钮与提示语之间用弹性间距把提示推到右侧 */
+.ap-job-detail__apply-hint {
+    margin-left: auto;
+    font-size: var(--ds-type-body-sm-size);
+    color: var(--ap-text-weak);
+}
+
+/* 摘要引言：左描边块，与正文区分 */
+.ap-job-detail__summary {
+    margin: 0 0 28px;
+    padding: 16px 20px;
+    background: var(--ap-bg-gray);
+    border-left: 3px solid var(--ap-primary);
+    border-radius: 0 var(--ap-radius) var(--ap-radius) 0;
+    color: var(--ap-text-weak);
+}

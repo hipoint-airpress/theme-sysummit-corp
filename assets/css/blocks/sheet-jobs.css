@@ -1,0 +1,145 @@
+/* ==========================================================================
+   blocks/sheet-jobs.css — 加入我们板块样式
+   服务页面：sheet_jobs.tmpl（页面模板 jobs）
+   关联模板：module/jobs-block（Tab 切换交互见 www-blocks.js initJobsTabs）
+   ========================================================================== */
+
+/* ---------- Tab 栏（社会招聘 / 校园招聘） ---------- */
+.ap-jobs__tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid var(--ap-border);
+}
+
+.ap-jobs__tab {
+    position: relative;
+    padding: 12px 20px;
+    border: none;
+    background: none;
+    font-size: var(--ds-type-title-md-size);
+    line-height: var(--ds-type-title-md-lh);
+    font-weight: 500;
+    color: var(--ap-text-weak);
+    white-space: nowrap;
+    cursor: pointer;
+    transition: color .2s ease;
+}
+
+.ap-jobs__tab::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -1px;
+    width: 0;
+    height: 2px;
+    background: var(--ap-primary);
+    transform: translateX(-50%);
+    transition: width .3s ease;
+}
+
+.ap-jobs__tab:hover {
+    color: var(--ap-primary);
+}
+
+.ap-jobs__tab.is-active {
+    color: var(--ap-primary);
+    font-weight: 600;
+}
+
+.ap-jobs__tab.is-active::after {
+    width: 100%;
+}
+
+/* ---------- 面板（一次只显示一个） ---------- */
+.ap-jobs__panel {
+    display: none;
+}
+
+.ap-jobs__panel.is-active {
+    display: block;
+    animation: apJobsFade .35s ease;
+}
+
+@keyframes apJobsFade {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: none; }
+}
+
+/* ---------- 岗位卡片列表 ---------- */
+.ap-jobs__list {
+    display: grid;
+    gap: 16px;
+}
+
+.ap-job {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 22px 24px;
+    background: #fff;
+    border: 1px solid var(--ap-border);
+    border-radius: var(--ap-radius-lg);
+    transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+
+.ap-job:hover {
+    border-color: transparent;
+    box-shadow: var(--ap-shadow-card-hover);
+    transform: translateY(-2px);
+}
+
+.ap-job__title {
+    margin: 0;
+    font-size: var(--ds-type-title-md-size);
+    line-height: var(--ds-type-title-md-lh);
+    font-weight: 600;
+}
+
+.ap-job:hover .ap-job__title {
+    color: var(--ap-primary);
+}
+
+.ap-job__desc {
+    margin: 8px 0 0;
+    font-size: var(--ds-type-body-md-size);
+    color: var(--ap-text-weak);
+}
+
+.ap-job__meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 12px;
+    font-size: var(--ds-type-body-sm-size);
+    color: var(--ap-text-light);
+}
+
+.ap-job__cat {
+    padding: 2px 10px;
+    background: var(--ap-bg-gray);
+    border-radius: 999px;
+    color: var(--ap-text-weak);
+}
+
+.ap-job__more {
+    flex-shrink: 0;
+    font-size: var(--ds-type-label-md-size);
+    color: var(--ap-primary);
+    white-space: nowrap;
+}
+
+/* ---------- 响应式 ---------- */
+@media (max-width: 768px) {
+    .ap-jobs__tabs {
+        overflow-x: auto;
+    }
+
+    .ap-job {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 18px;
+    }
+}

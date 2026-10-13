@@ -18,7 +18,9 @@ theme-www/
 ├── post.tmpl                        文章详情「默认兜底」（标题 + 正文，无业务区块）
 ├── post_news.tmpl                   文章剧本：新闻 / 通用文章详情
 ├── post_product.tmpl                文章剧本：产品详情（两栏 hero：摘要 + 特性 ✓ + 图在右）
+├── post_job.tmpl                    文章剧本：岗位详情（面包屑 + 摘要引言 + 岗位描述 + 返回列表）
 ├── sheet.tmpl                       独立页面「默认兜底」（Banner + 正文，无业务区块）
+├── sheet_jobs.tmpl                  页面剧本：加入我们（Banner + 招聘 Tab + 岗位列表）
 ├── sheet_application.tmpl           页面剧本：应用领域（工业/能源/汽车/消费）
 ├── sheet_company.tmpl               页面剧本：公司简介（时间线 + 卡片）
 ├── sheet_contact.tmpl               页面剧本：联系我们（信息卡 + 留言表单）
@@ -34,6 +36,7 @@ theme-www/
 │   ├── anchors-nav / sections-nav                        锚点导航
 │   ├── sections-block / timeline-block / cards-block
 │   ├── faq-block / files-block                           问答 / 资料下载
+│   ├── jobs-block                                       招聘 Tab + 岗位列表（加入我们页）
 │   ├── app-card                                         通用图片卡片（title/desc/image/link）
 │   └── breadcrumb / pagination / post-list / feature / promo / showcase-*
 └── assets/
@@ -112,6 +115,7 @@ AirPress 支持文章/页面各自指定模板（后台编辑页「自定义模�
 | `/ecosystem/services` | `/s/services` | `sheet_services.tmpl` | 独立页面 |
 | `/resources/documents` | `/s/documents` | `sheet_documents.tmpl` | 独立页面（`files` + `file_series`） |
 | `/resources/faq` | `/s/faq` | `sheet_faq.tmpl` | 独立页面（`faq`） |
+| 加入我们 | `/s/jobs` | `sheet_jobs.tmpl` | 独立页面 + 「招聘」分类的子分类（`jobs-block.tmpl`） |
 | `/categories` | `/categories` | `categories.tmpl` | **分类归档**（全站分类列表），不是产品中心 |
 | 合作伙伴 | `/links` | `links.tmpl` | 后台友链 |
 
@@ -276,6 +280,20 @@ DSP|ESC|SOC
 
 产品中心（`sheet_product.tmpl`）用 `listCategoryAsTree()` 取 `product` 分类下的子分类作为系列，不依赖主题设置；分类归档页（`categories.tmpl`）列全站分类。另有 `news`（新闻中心）分类。
 
+### 招聘分类与岗位文章（加入我们）
+
+| 分类名 | slug | 父级 | 说明 |
+| --- | --- | --- | --- |
+| 招聘 | `jobs` | — | **slug 必须是 `jobs`**，`jobs-block.tmpl` 按它定位父分类 |
+| 社会招聘 | `job-social` | `jobs` | Tab 1 |
+| 校园招聘 | `job-campus` | `jobs` | Tab 2 |
+
+- Tab 由 `jobs` 的**子分类自动生成**（`listCategoryAsTree("jobs")`），新增/改名子类无需改模板；Tab 顺序按分类 `priority`。
+- 岗位文章为普通文章（`type=0`），归入 `job-social` / `job-campus`，**后台「自定义模板」必须选 `job`**（对应 `post_job.tmpl`），否则回退 `post.tmpl`。
+- 摘要填岗位亮点（一两句话），正文填完整岗位描述（职责 / 要求）；正文支持富文本与 Markdown。
+- 岗位详情页顶部有「立即投递」按钮（`mailto:` 调本机邮件客户端，主题/正文按岗位名自动生成），收件邮箱取主题设置 **加入我们 - 投递邮箱 `job_apply_email`**，按钮文案用 `job_apply_text`；**投递邮箱留空则不渲染该按钮**。
+- 初始化 SQL 见 `scripts/add_jobs_categories.sql`（可重复执行）。
+
 > ⚠️ 主题设置 `product_series_slugs` 只影响**产品详情页顶部的系列导航**（`product-detail.tmpl`），必须与实际子分类 slug 一致。当前后台仍是旧值 `dsc,soc`，与实际分类 `dsp` / `esc` 不匹配，会导致该导航渲染为空，请改为 `dsp,esc`。
 
 ### 产品文章（8 篇）
@@ -307,6 +325,9 @@ DSP|ESC|SOC
 | 文章前台看不到 | 大部分文章处于**回收站**状态（`status=2`），需在后台「回收站」恢复为已发布 |
 | 独立页面 Banner 空白 | 该页面的 `hero_image` / `hero_gradient` 自定义字段未填（或留空时按兜底样式渲染） |
 | 结构化板块整块不渲染 | 对应 meta 的 JSON 格式非法或为空字符串，模板只认 JSON（`from_json` 解析失败即跳过该板块） |
+| 岗位列表页整块空白（无 Tab、无提示） | `sheet_jobs.tmpl` 或 `module/jobs-block.tmpl` 未被成功加载，最常见是模板里用了跨行的 `{# … #}` 注释。日志会记 `parse template err`，页面表现为 200 但正文为空 |
+| 加入我们页提示「还没有子分类」 | 「招聘」分类（slug 必须是 `jobs`）下没有子分类，或岗位文章未归入 `job-social` / `job-campus` |
+| 岗位文章在 Tab 里看不到 | 文章状态不是「已发布」（`listPostByCategoryID` 只返回已发布），或没归到招聘子分类 |
 
 ## 资源说明
 
@@ -316,7 +337,10 @@ DSP|ESC|SOC
 
 - 改模板语法前先读 `resources/template/theme/THEME-SYNTAX.md`（变量、函数、include 规则、常见坑）。
 - 模板保存后会热重载；若语法错误，启动/重载时日志会报 `parse template err`。
-- **pongo2 的 `{# … #}` 是单行注释**，注释里不能换行，多行注释要用 `{% comment %}…{% endcomment %}`。
+- **pongo2 的 `{# … #}` 是单行注释**，注释里不能换行，多行注释要用 `{% comment %}…{% endcomment %}`；写错会在加载模板时报 `Newline not permitted in a single-line comment`，页面表现为 200 但空白。
+- **`{% set %}` 写在 `{% for %}` 里属子作用域，循环外不可见**（后端 `getCategoryBySlug` 的注释也记了这条）。需要「遍历查找并赋值」时用带 slug 入参的 `listCategoryAsTree("xxx")`，它直接返回该节点（含 `Children`）的单元素切片。
+- **新增 `.tmpl` 文件同样会被热重载**（监听器按目录监听 `.tmpl` 的增删改，`Reload` 清编译缓存后按需重编译）；若页面没变化，手动 touch 一下该文件或重启服务再试。
+- **`settings.yaml` 新增配置项的生效有缓存延迟**：模板里取不到新键时（如投递按钮不出现），说明主题设置缓存尚未刷新，稍等片刻或重新激活主题、必要时重启服务即可；未在后台保存过时取 `settings.yaml` 里的 `default` 值（`service/impl/theme.go` 中 DB 值优先、缺失回退默认值）。
 - 新增板块样式写在 `assets/css/blocks/` 对应模块（按页面/组件命名，文件头注明服务页面），新页面新建模块后在 `assets/css/www-blocks.css` 追加 `@import`；交互写在 `assets/js/www-blocks.js`，避免在 `main.css` / `main.js` 中与基础组件冲突。模块内响应式断点统一 1200 / 1024 / 768；注意 `@import` 子文件不带版本参数，改动后开发时需强刷浏览器缓存。
 - **设计令牌（v2.0 起）**：色彩/字阶/圆角/间距/阴影统一走 CSS 变量，双层架构——`--ds-*` 原始令牌定义在 `blocks/_tokens.css`（落地过程与规范来源见 `DESIGN-UPGRADE-PLAN.md`），`--ap-*` 语义层在 `main.css :root` 映射（品牌主色 `--ap-primary` 由后台「主题设置 primary_color」注入，默认 `#003e6f`）。业务样式**禁止硬编码色值**（白/黑中性色除外），字体字号用 `--ds-type-*`，数据表格加 `font-variant-numeric: var(--ds-numeric)`；改后台主色时需同步 `_tokens.css` 的按钮三态与各级 tint / 光晕（当前后台配置值为 `#409eff`，与令牌默认推导口径 `#003e6f` 不一致，换色前请先对齐）。
 - 新增剧本模板命名遵循 `post_<短名>.tmpl` / `sheet_<短名>.tmpl`；可复用区块抽到 `module/`，业务区块一般要放在 `.ap-container` 内才有定宽与留白（导航条等全宽组件除外）。

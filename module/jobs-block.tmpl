@@ -1,0 +1,49 @@
+{# 招聘 Tab + 岗位列表：Tab 由分类「招聘」(slug: jobs) 的子分类自动生成（默认社会招聘 / 校园招聘） #}
+{# 岗位文章取自各子分类，listPostByCategoryID 只返回已发布；切换依赖 www-blocks.js 的 initJobsTabs #}
+{# 注意：pongo2 的 {% set %} 写在 {% for %} 里属子作用域、循环外不可见， #}
+{#      因此用 listCategoryAsTree("jobs") 直接定位父分类节点（返回含 Children 的单元素切片），不能靠循环里赋值 #}
+{% set jobTree = listCategoryAsTree("jobs") %}
+
+{% if not jobTree %}
+    <div class="ap-empty">招聘分类尚未创建</div>
+{% else %}
+    {% set jobCats = jobTree.0.Children %}
+    {% if jobCats|length == 0 %}
+        <div class="ap-empty">「招聘」分类下还没有子分类，请在后台添加（如社会招聘 / 校园招聘）</div>
+    {% else %}
+        <div class="ap-jobs" id="apJobs">
+            <div class="ap-jobs__tabs" role="tablist">
+                {% for c in jobCats %}
+                    <button type="button" class="ap-jobs__tab{% if forloop.Counter0 == 0 %} is-active{% endif %}" data-index="{{ forloop.Counter0 }}" role="tab" aria-selected="{% if forloop.Counter0 == 0 %}true{% else %}false{% endif %}">{{ c.Name }}</button>
+                {% endfor %}
+            </div>
+
+            {% for c in jobCats %}
+                {% set jobPosts = listPostByCategoryID(c.ID) %}
+                <div class="ap-jobs__panel{% if forloop.Counter0 == 0 %} is-active{% endif %}" data-index="{{ forloop.Counter0 }}" role="tabpanel">
+                    {% if jobPosts|length > 0 %}
+                        <div class="ap-jobs__list">
+                            {% for job in jobPosts %}
+                                <a class="ap-job" href="{{ job.FullPath }}" title="{{ job.Title }}">
+                                    <div class="ap-job__body">
+                                        <h3 class="ap-job__title">{{ job.Title }}</h3>
+                                        {% if job.Summary %}
+                                            <p class="ap-job__desc">{{ job.Summary|striptags|truncatechars:100 }}</p>
+                                        {% endif %}
+                                        <div class="ap-job__meta">
+                                            <span class="ap-job__cat">{{ c.Name }}</span>
+                                            <span>{{ unix_milli_time_format("2006-01-02", job.CreateTime) }}</span>
+                                        </div>
+                                    </div>
+                                    <span class="ap-job__more">查看详情 →</span>
+                                </a>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="ap-empty">该类别暂无岗位</div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endif %}
