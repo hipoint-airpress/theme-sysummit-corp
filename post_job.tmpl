@@ -1,0 +1,55 @@
+{# 岗位详情页：在后台文章编辑页「自定义模板」选择 job 即生效（对应 post.template = job） #}
+{# 结构：面包屑 + 岗位标题 + 分类/日期 + 立即投递 + 摘要引言 + 正文（岗位描述）+ 返回招聘列表 #}
+{# 投递邮箱取主题设置「加入我们 - 投递邮箱」(job_apply_email)，留空则不渲染投递按钮 #}
+{% set applyEmail = settings.job_apply_email|default:"" %}
+{% set mailSubject = "应聘投递 - " + post.Title %}
+{% set mailBody = "投递岗位：" + post.Title + "；请在附件中附上个人简历与联系方式。" %}
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    {% include "www/module/head" with title=printf("%s - %s", post.Title, settings.company_name|default:blog_title) %}
+</head>
+<body>
+{% include "www/module/header" %}
+
+<article class="ap-page ap-detail" style="min-height: 650px;padding-top: 0">
+    {% include "www/module/breadcrumb" with current=post.Title %}
+
+    <div class="ap-container">
+        <div class="ap-job-detail">
+            <div class="ap-job-detail__head">
+                <h1 class="ap-block__title">{{ post.Title }}</h1>
+                <div class="ap-job-detail__meta">
+                    {% if post.Categories %}
+                        {% for c in post.Categories %}
+                            <a href="{{ c.FullPath }}">{{ c.Name }}</a>{% if not loop.Last %} · {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                    <span>{{ unix_milli_time_format("2006-01-02", post.CreateTime) }}</span>
+                </div>
+            </div>
+
+            {% if post.Content %}
+                <div class="ap-content" style="padding-top: 0">{{ post.Content|safe }}</div>
+            {% endif %}
+        </div>
+
+        {# 操作栏：立即投递（主按钮）+ 返回招聘列表（次按钮）同一排 #}
+        {# 投递邮箱取主题设置 job_apply_email，留空则不渲染投递按钮 #}
+        <div class="ap-job-detail__actions">
+            {% if applyEmail %}
+                {# 主题名与正文用 urlencode 编码（pongo2 内置过滤器，内部为 url.QueryEscape）#}
+                <a style="margin-right: 12px" class="ap-btn ap-btn--primary ap-btn--lg" href="mailto:{{ applyEmail }}?subject={{ mailSubject|urlencode }}&amp;body={{ mailBody|urlencode }}">{{ settings.job_apply_text|default:"立即投递" }}</a>
+            {% endif %}
+            <a style="margin-right: 12px" class="ap-btn ap-btn--lg" href="/s/jobs">返回招聘列表</a>
+            {% if applyEmail %}
+                <span class="ap-job-detail__apply-hint">简历请发至：{{ applyEmail }}</span>
+            {% endif %}
+        </div>
+    </div>
+</article>
+
+{% include "www/module/footer" %}
+{% include "www/module/scripts" %}
+</body>
+</html>

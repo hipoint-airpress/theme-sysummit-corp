@@ -1,0 +1,18 @@
+{# 加入我们页：Banner（页面 metas hero_*）+ 正文 + 招聘 Tab（社会招聘 / 校园招聘）+ 岗位列表 #}
+{# Tab 与岗位列表由分类「招聘」（slug: jobs）的子分类自动生成，新增子类无需改模板 #}
+{% include "www/module/sheet-head" %}
+
+<div class="ap-page">
+    <div class="ap-container">
+        {% if post.Content %}
+            <div class="ap-content" id="apIntro">{{ post.Content|safe }}</div>
+        {% endif %}
+
+        {% include "www/module/jobs-block" %}
+    </div>
+</div>
+
+{% include "www/module/footer" %}
+{% include "www/module/scripts" %}
+</body>
+</html>

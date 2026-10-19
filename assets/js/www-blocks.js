@@ -47,6 +47,7 @@
         initHeroCarousel();
         initShowcase();
         initFaq();
+        initJobsTabs();
         initFileFilter();
         initSeriesNav();
         initProductFilter();
@@ -377,6 +378,31 @@
             btn.addEventListener('click', function () {
                 item.classList.toggle('is-open');
             });
+        });
+    }
+
+    /* ---------- 加入我们：招聘 Tab 切换（一次只显示一个面板） ---------- */
+    function initJobsTabs() {
+        var root = document.getElementById('apJobs');
+        if (!root) return;
+        var tabs = root.querySelectorAll('.ap-jobs__tab');
+        var panels = root.querySelectorAll('.ap-jobs__panel');
+        if (tabs.length < 2) return;
+
+        function activate(index) {
+            Array.prototype.forEach.call(tabs, function (tab) {
+                var on = tab.getAttribute('data-index') === String(index);
+                tab.classList.toggle('is-active', on);
+                tab.setAttribute('aria-selected', on ? 'true' : 'false');
+            });
+            Array.prototype.forEach.call(panels, function (panel) {
+                panel.classList.toggle('is-active', panel.getAttribute('data-index') === String(index));
+            });
+        }
+
+        Array.prototype.forEach.call(tabs, function (tab) {
+            var index = Number(tab.getAttribute('data-index'));
+            tab.addEventListener('click', function () { activate(index); });
         });
     }
 
