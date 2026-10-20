@@ -1,12 +1,10 @@
-{# 公司简介页：Banner + 锚点导航 + 图文正文 + 发展历程时间线 + 卡片区（如荣誉资质 / 合作伙伴） #}
+{# 公司简介页：Banner + 锚点导航 + 简介图文（metas：company_intro / company_intro_items / company_intro_image）+ 发展历程时间线 + 卡片区（如荣誉资质 / 合作伙伴） #}
 {% include "www/module/sheet-head" %}
 {% include "www/module/anchors-nav" %}
 
 <div class="ap-page">
     <div class="ap-container">
-        {% if post.Content %}
-            <div class="ap-content" id="apIntro">{{ post.Content|safe }}</div>
-        {% endif %}
+        {% include "www/module/company-intro" %}
 
         {% include "www/module/timeline-block" %}
         {% include "www/module/cards-block" %}

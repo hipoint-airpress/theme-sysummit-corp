@@ -1,20 +1,42 @@
 /* ==========================================================================
    blocks/sheet-company.css — 公司简介页面样式
    服务页面：sheet_company.tmpl（页面模板 company）；timeline 也被 sheet_page 复用
-   关联模板：module/timeline-block、module/anchors-nav（锚点条样式在 _base.css）
+   关联模板：module/company-intro、module/timeline-block、module/anchors-nav（锚点条样式在 _base.css）
    内容：企业简介图文（ap-company-intro）、发展历程时间线（ap-timeline）
    ========================================================================== */
 
 /* ---------- 企业简介图文（源站 .company-intro） ---------- */
+.ap-company-intro__lead {
+    margin: 24px 0 24px;
+    font-size: var(--ds-type-body-lg-size);
+    line-height: 1.9;
+    color: var(--ap-text);
+}
+
+.ap-company-intro__lead p {
+    margin: 0;
+}
+
+.ap-company-intro__lead p + p {
+    margin-top: 12px;
+}
+
+/* 顶部对齐：列表首行与右侧配图齐平 */
 .ap-company-intro {
     display: flex;
     gap: 60px;
-    align-items: center;
+    align-items: flex-start;
 }
 
 .ap-company-intro__text {
     flex: 1;
     min-width: 0;
+}
+
+/* 列表 / 配图只配了其中一项时，空栏不占位（模板中空栏不含任何空白字符） */
+.ap-company-intro__text:empty,
+.ap-company-intro__image:empty {
+    display: none;
 }
 
 .ap-company-intro__text ul {
@@ -24,7 +46,13 @@
 }
 
 .ap-company-intro__text li {
-    margin-top: 28px;
+    margin-top: 15px;
+    /* font-size: var(--ds-type-body-lg-size); */
+    line-height: 1.9;
+}
+
+.ap-company-intro__text li:first-child {
+    margin-top: 0;
 }
 
 .ap-company-intro__image {
@@ -128,7 +156,15 @@
         gap: 20px;
     }
 
+    .ap-company-intro__lead {
+        margin-bottom: 28px;
+        font-size: var(--ds-type-body-md-size);
+        line-height: 1.8;
+    }
+
     .ap-company-intro__text li {
         margin-top: 16px;
+        font-size: var(--ds-type-body-md-size);
+        line-height: 1.8;
     }
 }
