@@ -22,7 +22,7 @@ theme-www/
 ├── sheet.tmpl                       独立页面「默认兜底」（Banner + 正文，无业务区块）
 ├── sheet_jobs.tmpl                  页面剧本：加入我们（Banner + 招聘 Tab + 岗位列表）
 ├── sheet_application.tmpl           页面剧本：应用领域（工业/能源/汽车/消费）
-├── sheet_company.tmpl               页面剧本：公司简介（时间线 + 卡片）
+├── sheet_company.tmpl               页面剧本：公司简介（简介图文 + 时间线 + 卡片）
 ├── sheet_contact.tmpl               页面剧本：联系我们（信息卡 + 留言表单）
 ├── sheet_documents.tmpl             页面剧本：文档中心（资料下载表）
 ├── sheet_faq.tmpl                   页面剧本：常见问题
@@ -34,6 +34,7 @@ theme-www/
 │   ├── highlights-block / downloads-block                产品亮点 / 资料下载（post_product 使用）
 │   ├── sheet-head / contact-block                        单页头部 / 联系区块
 │   ├── anchors-nav / sections-nav                        锚点导航
+│   ├── company-intro                                     公司简介图文（导语 + 要点列表 + 配图）
 │   ├── sections-block / timeline-block / cards-block
 │   ├── faq-block / files-block                           问答 / 资料下载
 │   ├── jobs-block                                       招聘 Tab + 岗位列表（加入我们页）
@@ -148,6 +149,9 @@ AirPress 支持文章/页面各自指定模板（后台编辑页「自定义模�
 | `hero_bg_position` | CSS 定位值 | Banner 背景位置 |
 | `hero_desc` | 文本 | Banner 副标题 |
 | `anchors` | `标题::区块ID\|…` | 通用锚点导航（`apIntro` / `apTimeline` / `apCards`） |
+| `company_intro` | 文本（`\|` 分多段） | 公司简介导语，有值时才渲染整个简介图文块（锚点 `apIntro`） |
+| `company_intro_items` | `标签::描述\|…` | 公司简介要点列表（`<b>标签</b>：描述`） |
+| `company_intro_image` | 图片 URL | 公司简介右侧配图（与 `company_intro_items` 并列，缺一项时另一项占满整行） |
 | `sections` | `标题::描述::图片::标签1/标签2\|…` | 应用领域图文区块（图右文左交替） |
 | `timeline` / `timeline_title` | `年份::标题::描述::补充\|…` | 发展历程时间线 |
 | `cards` / `cards_title` / `cards_grid` / `cards_image` | `标题::描述::图片或图标名::链接\|…` | 卡片网格（`cards_grid=4` 四列） |

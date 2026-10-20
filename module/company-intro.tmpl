@@ -1,0 +1,16 @@
+{# 公司简介图文（源站 .company-intro）：company_intro 为导语（`|` 分多段，必填触发）、company_intro_items = "标签::描述|…"、company_intro_image 为右侧配图 URL；列表与配图各自独立渲染，缺一项时另一项占满整行（空栏由 CSS :empty 隐藏）。锚点 id 为 apIntro，导语与描述允许内联 HTML（如 <b>） #}
+{% for meta in metas %}
+    {% if meta.Key == "company_intro" and meta.Value %}
+        <div class="ap-block" id="apIntro">
+            <div class="ap-company-intro__lead">
+                {% for p in meta.Value|split:"|" %}
+                    {% if p %}<p>{{ p|safe }}</p>{% endif %}
+                {% endfor %}
+            </div>
+            <div class="ap-company-intro">
+                <div class="ap-company-intro__text">{% for items in metas %}{% if items.Key == "company_intro_items" and items.Value %}<ul>{% for item in items.Value|split:"|" %}{% set it = item|split:"::" %}<li>{% if it.0 %}<b>{{ it.0 }}</b>：{% endif %}{% if it.1 %}{{ it.1|safe }}{% endif %}</li>{% endfor %}</ul>{% endif %}{% endfor %}</div>
+                <div class="ap-company-intro__image">{% for img in metas %}{% if img.Key == "company_intro_image" and img.Value %}<img src="{{ img.Value }}" alt="{{ post.Title }}" loading="lazy"/>{% endif %}{% endfor %}</div>
+            </div>
+        </div>
+    {% endif %}
+{% endfor %}
