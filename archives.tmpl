@@ -40,15 +40,18 @@
                                     </div>
                                     <h3 class="ap-news-carousel__title">{{ item.Title }}</h3>
                                     {% if item.Summary %}<p class="ap-news-carousel__desc">{{ item.Summary|striptags|truncatechars:110 }}</p>{% endif %}
-                                    <span class="ap-btn ap-btn--sm">了解更多</span>
+                                    <span class="ap-btn">了解更多</span>
                                 </div>
                             </a>
                         {% endif %}
                     {% endfor %}
+                    {# 控制层与图片区同尺寸（桌面左半、移动端顶部整宽），箭头/指示点始终压在图片上 #}
+                    <div class="ap-news-carousel__media">
+                        <button type="button" class="ap-news-carousel__arrow ap-news-carousel__arrow--prev" data-direction="-1" aria-label="上一条"></button>
+                        <button type="button" class="ap-news-carousel__arrow ap-news-carousel__arrow--next" data-direction="1" aria-label="下一条"></button>
+                        <div class="ap-news-carousel__dots"></div>
+                    </div>
                 </div>
-                <button type="button" class="ap-news-carousel__arrow ap-news-carousel__arrow--prev" data-direction="-1" aria-label="上一条"></button>
-                <button type="button" class="ap-news-carousel__arrow ap-news-carousel__arrow--next" data-direction="1" aria-label="下一条"></button>
-                <div class="ap-news-carousel__dots"></div>
             </div>
         {% endif %}
 
