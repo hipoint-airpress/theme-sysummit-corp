@@ -1,4 +1,7 @@
 {% set footerMenus = listMenuByTeam(settings.footer_menu_team|default:"footer") %}
+{# 电话/邮箱为主题设置的 JSON 数组，与联系页共用一份配置 #}
+{% set contactPhones = from_json(settings.contact_phones) %}
+{% set contactEmails = from_json(settings.contact_emails) %}
 <footer class="ap-footer">
     <div class="ap-container ap-footer__main">
         <div class="ap-footer__col">
@@ -8,15 +11,12 @@
                 {% if settings.contact_address %}
                     <li>{% include "www/module/icon" with name="location" %}<span>{{ settings.contact_address }}</span></li>
                 {% endif %}
-                {% if settings.contact_phone %}
-                    <li>{% include "www/module/icon" with name="phone" %}<a href="tel:{{ settings.contact_tel|default:settings.contact_phone }}">{{ settings.contact_phone }}</a></li>
-                {% endif %}
-                {% if settings.contact_email %}
-                    <li>{% include "www/module/icon" with name="mail" %}<a href="mailto:{{ settings.contact_email }}">{{ settings.contact_email }}</a></li>
-                {% endif %}
-                {% if settings.contact_email2 %}
-                    <li>{% include "www/module/icon" with name="mail" %}<a href="mailto:{{ settings.contact_email2 }}">{{ settings.contact_email2 }}</a></li>
-                {% endif %}
+                {% for p in contactPhones %}
+                    <li>{% include "www/module/icon" with name="phone" %}<a href="tel:{{ p.tel|default:p.value }}">{% if p.label %}{{ p.label }}：{% endif %}{{ p.value }}</a></li>
+                {% endfor %}
+                {% for e in contactEmails %}
+                    <li>{% include "www/module/icon" with name="mail" %}<a href="mailto:{{ e.value }}">{% if e.label %}{{ e.label }}：{% endif %}{{ e.value }}</a></li>
+                {% endfor %}
             </ul>
         </div>
 
