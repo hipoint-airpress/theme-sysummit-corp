@@ -1,4 +1,7 @@
 {# 联系我们区块（源站 contact.vue）：三张信息卡（点击复制）+ 左表单 + 右服务说明。由 metas 的 show_contact / show_contact_form / cards 驱动 #}
+{# 电话/邮箱改由数组配置：contact_phones = [{"label","value","tel"}]，contact_emails = [{"label","value"}]，JSON 解析失败按空处理 #}
+{% set contactPhones = from_json(settings.contact_phones) %}
+{% set contactEmails = from_json(settings.contact_emails) %}
 {% for meta in metas %}
     {% if meta.Key == "show_contact" and meta.Value %}
         <div class="ap-contact-cards">
@@ -9,20 +12,22 @@
                     <p data-copy="{{ settings.contact_address }}">{{ settings.contact_address }}</p>
                 </div>
             {% endif %}
-            {% if settings.contact_phone %}
+            {% if contactPhones %}
                 <div class="ap-contact-card">
                     <span class="ap-contact-card__icon">{% include "www/module/icon" with name="phone" %}</span>
                     <h3>联系电话</h3>
-                    <p data-copy="市场电话: {{ settings.contact_phone }}">市场电话: {{ settings.contact_phone }}</p>
-                    <p data-copy="技术支持: {{ settings.contact_phone }}">技术支持: {{ settings.contact_phone }}</p>
+                    {% for p in contactPhones %}
+                        <p data-copy="{{ p.value }}">{% if p.label %}{{ p.label }}：{% endif %}{{ p.value }}</p>
+                    {% endfor %}
                 </div>
             {% endif %}
-            {% if settings.contact_email or settings.contact_email2 %}
+            {% if contactEmails %}
                 <div class="ap-contact-card">
                     <span class="ap-contact-card__icon">{% include "www/module/icon" with name="mail" %}</span>
                     <h3>联系邮箱</h3>
-                    {% if settings.contact_email %}<p data-copy="{{ settings.contact_email }}">{{ settings.contact_email }}</p>{% endif %}
-                    {% if settings.contact_email2 %}<p data-copy="{{ settings.contact_email2 }}">{{ settings.contact_email2 }}</p>{% endif %}
+                    {% for e in contactEmails %}
+                        <p data-copy="{{ e.value }}">{% if e.label %}{{ e.label }}：{% endif %}{{ e.value }}</p>
+                    {% endfor %}
                 </div>
             {% endif %}
         </div>
@@ -32,7 +37,7 @@
                 <div class="ap-contact-main">
                     <div class="ap-contact-form" id="apContactFormWrap">
                         <h2 class="ap-contact-form__title">联系我们</h2>
-                        <form class="ap-form" id="apContactForm" novalidate data-mailto="{{ settings.contact_email|default:"support@sysummit.com" }}">
+                        <form class="ap-form" id="apContactForm" novalidate data-mailto="{% if contactEmails %}{{ contactEmails.0.value }}{% else %}support@sysummit.com{% endif %}">
                             <div class="ap-form__row">
                                 <div class="ap-field">
                                     <label for="cf-name">联系人 <em>*</em></label>

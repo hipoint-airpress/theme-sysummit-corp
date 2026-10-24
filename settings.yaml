@@ -40,31 +40,28 @@ basic:
       data-type: string
       default: '/admin'
       description: 顶部条右侧登录入口，留空则不显示
-    contact_phone:
-      name: contact_phone
-      label: 联系电话
-      type: text
+    contact_phones:
+      name: contact_phones
+      label: 联系电话（可多条）
+      type: textarea
       data-type: string
-      default: '181-6371-7051'
-    contact_tel:
-      name: contact_tel
-      label: 联系电话（拨号用）
-      type: text
+      default: |
+        [
+          {"label": "市场电话", "value": "181-6371-7051", "tel": "18163717051"},
+          {"label": "技术支持", "value": "181-6371-7051", "tel": "18163717051"}
+        ]
+      description: 'JSON 数组，每项 {"label":"名称","value":"展示号码","tel":"拨号号码（省略则用 value）"}；留空则联系区块与页脚不显示电话，格式非法时同样按空处理'
+    contact_emails:
+      name: contact_emails
+      label: 联系邮箱（可多条）
+      type: textarea
       data-type: string
-      default: '18163717051'
-      description: '去掉分隔符，用于 tel: 链接'
-    contact_email:
-      name: contact_email
-      label: 销售邮箱
-      type: text
-      data-type: string
-      default: 'sale@sysummit.com'
-    contact_email2:
-      name: contact_email2
-      label: 技术支持邮箱
-      type: text
-      data-type: string
-      default: 'support@sysummit.com'
+      default: |
+        [
+          {"label": "销售", "value": "sale@sysummit.com"},
+          {"label": "技术支持", "value": "support@sysummit.com"}
+        ]
+      description: 'JSON 数组，每项 {"label":"名称（可省略）","value":"邮箱"}；第一条同时作为留言表单的收件邮箱，留空则联系区块与页脚不显示邮箱'
     contact_address:
       name: contact_address
       label: 公司地址

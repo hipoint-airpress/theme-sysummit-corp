@@ -1,3 +1,6 @@
+{# 悬浮联系弹层：电话/邮箱读取主题设置的 JSON 数组，与联系页共用一份配置 #}
+{% set contactPhones = from_json(settings.contact_phones) %}
+{% set contactEmails = from_json(settings.contact_emails) %}
 <div class="ap-contact-trigger" id="apContactTrigger" aria-label="联系方式">
     {% include "www/module/icon" with name="phone" %}
 </div>
@@ -6,21 +9,20 @@
         <button type="button" id="apContactClose" aria-label="关闭">&times;</button>
     </div>
     <div class="ap-contact-popup__body">
-        {% if settings.contact_phone %}
+        {% if contactPhones %}
             <div class="ap-contact-item">
                 <div class="ap-contact-label">联系电话</div>
-                <a class="ap-contact-value" href="tel:{{ settings.contact_tel|default:settings.contact_phone }}">{{ settings.contact_phone }}</a>
+                {% for p in contactPhones %}
+                    <a class="ap-contact-value" href="tel:{{ p.tel|default:p.value }}">{{ p.value }}</a>
+                {% endfor %}
             </div>
         {% endif %}
-        {% if settings.contact_email or settings.contact_email2 %}
+        {% if contactEmails %}
             <div class="ap-contact-item">
                 <div class="ap-contact-label">联系邮箱</div>
-                {% if settings.contact_email %}
-                    <span class="ap-contact-value" data-copy="{{ settings.contact_email }}">{{ settings.contact_email }}</span>
-                {% endif %}
-                {% if settings.contact_email2 %}
-                    <span class="ap-contact-value" data-copy="{{ settings.contact_email2 }}">{{ settings.contact_email2 }}</span>
-                {% endif %}
+                {% for e in contactEmails %}
+                    <span class="ap-contact-value" data-copy="{{ e.value }}">{{ e.value }}</span>
+                {% endfor %}
             </div>
         {% endif %}
     </div>
